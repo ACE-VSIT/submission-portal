@@ -9,265 +9,265 @@
 
 /* Brand + neutral + semantic tokens (design.md §3) */
 @theme {
-  --color-white: #ffffff;
-  --color-primary: #16171d; /* near-black — headings, dark surfaces */
-  --color-beige: #f4f3ec; /* warm off-white — sidebar, table headers */
-  --color-grey: #867e8e; /* body / table-cell text */
-  --color-nickel: #3b3440; /* dark-mode borders, muted text */
-  --color-stroke: #e5e4e7; /* hairline borders (light) */
-  --color-midnight: #0c0912; /* deepest black — dark canvas */
-  --color-slate: #14121a; /* dark nested surface */
-  --color-ruby: #863bff; /* secondary violet */
-  --color-wine: #140033; /* gradient undertone (empty states) */
-  --color-electric: #6c3bff; /* primary accent — one purpose per screen */
-  --color-vite: #b39aff; /* pale violet — selected rows / focus washes */
-  --color-space: #110033; /* inline-code color on light bg */
-  --color-zest: #22ff73; /* data-viz only */
-  --color-aqua: #32f3e9; /* data-viz only */
-  --color-success: #00b442;
-  --color-warning: #f5a623;
-  --color-error: #e5484d;
+    --color-white: #ffffff;
+    --color-primary: #16171d; /* near-black — headings, dark surfaces */
+    --color-beige: #f4f3ec; /* warm off-white — sidebar, table headers */
+    --color-grey: #867e8e; /* body / table-cell text */
+    --color-nickel: #3b3440; /* dark-mode borders, muted text */
+    --color-stroke: #e5e4e7; /* hairline borders (light) */
+    --color-midnight: #0c0912; /* deepest black — dark canvas */
+    --color-slate: #14121a; /* dark nested surface */
+    --color-ruby: #863bff; /* secondary violet */
+    --color-wine: #140033; /* gradient undertone (empty states) */
+    --color-electric: #6c3bff; /* primary accent — one purpose per screen */
+    --color-vite: #b39aff; /* pale violet — selected rows / focus washes */
+    --color-space: #110033; /* inline-code color on light bg */
+    --color-zest: #22ff73; /* data-viz only */
+    --color-aqua: #32f3e9; /* data-viz only */
+    --color-success: #00b442;
+    --color-warning: #f5a623;
+    --color-error: #e5484d;
 
-  /* Semantic foreground tokens for contrast on colored backgrounds */
-  --color-success-foreground: #ffffff;
-  --color-warning-foreground: #16171d;
-  --color-error-foreground: #ffffff;
+    /* Semantic foreground tokens for contrast on colored backgrounds */
+    --color-success-foreground: #ffffff;
+    --color-warning-foreground: #16171d;
+    --color-error-foreground: #ffffff;
 
-  /* Skeleton loader tokens (adaptive) */
-  --color-skeleton-light: #e5e4e7;
-  --color-skeleton-light-shimmer: #f0f0f3;
-  --color-skeleton-dark: #1b1822;
-  --color-skeleton-dark-shimmer: #262330;
+    /* Skeleton loader tokens (adaptive) */
+    --color-skeleton-light: #e5e4e7;
+    --color-skeleton-light-shimmer: #f0f0f3;
+    --color-skeleton-dark: #1b1822;
+    --color-skeleton-dark-shimmer: #262330;
 
-  /* Radius (design.md §6) */
-  --radius-xs: 0.125rem;
-  --radius-sm: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
+    /* Radius (design.md §6) */
+    --radius-xs: 0.125rem;
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
 
-  /* Shadows — overlays only (design.md §5) */
-  --shadow-dropdown: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-  --shadow-modal: 0 25px 50px -20px rgba(50, 50, 93, 0.25), 0 15px 30px -30px rgba(0, 0, 0, 0.3);
-  --shadow-toast: 0 10px 25px -10px rgba(50, 50, 93, 0.2), 0 6px 12px -6px rgba(0, 0, 0, 0.15);
+    /* Shadows — overlays only (design.md §5) */
+    --shadow-dropdown: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --shadow-modal: 0 25px 50px -20px rgba(50, 50, 93, 0.25), 0 15px 30px -30px rgba(0, 0, 0, 0.3);
+    --shadow-toast: 0 10px 25px -10px rgba(50, 50, 93, 0.2), 0 6px 12px -6px rgba(0, 0, 0, 0.15);
 
-  /* Typography (design.md §3) — APK Protocol / KH Teka Mono are licensed
+    /* Typography (design.md §3) — APK Protocol / KH Teka Mono are licensed
      fonts; Inter + IBM Plex Mono are the shipped practical stand-ins. */
-  --font-heading: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --font-heading: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* App shell (design.md §12) */
-  --sidebar-w: 15rem;
-  --sidebar-w-collapsed: 4rem;
-  --topbar-h: 3.5rem;
+    /* App shell (design.md §12) */
+    --sidebar-w: 15rem;
+    --sidebar-w-collapsed: 4rem;
+    --topbar-h: 3.5rem;
 }
 
 /* Shadcn semantic layer mapped onto the design tokens (light = default) */
 :root {
-  --background: #ffffff;
-  --foreground: #16171d;
-  --card: #ffffff;
-  --card-foreground: #16171d;
-  --popover: #ffffff;
-  --popover-foreground: #16171d;
-  --secondary: #f4f3ec;
-  --secondary-foreground: #16171d;
-  --muted: #f4f3ec;
-  --muted-foreground: #6e6678; /* Darkened from #867e8e for WCAG AA contrast on beige */
-  --accent: #f4f3ec;
-  --accent-foreground: #16171d;
-  --destructive: #e5484d;
-  --destructive-foreground: #ffffff;
-  --border: #e5e4e7;
-  --input: #e5e4e7;
-  --ring: #6c3bff;
+    --background: #ffffff;
+    --foreground: #16171d;
+    --card: #ffffff;
+    --card-foreground: #16171d;
+    --popover: #ffffff;
+    --popover-foreground: #16171d;
+    --secondary: #f4f3ec;
+    --secondary-foreground: #16171d;
+    --muted: #f4f3ec;
+    --muted-foreground: #6e6678; /* Darkened from #867e8e for WCAG AA contrast on beige */
+    --accent: #f4f3ec;
+    --accent-foreground: #16171d;
+    --destructive: #e5484d;
+    --destructive-foreground: #ffffff;
+    --border: #e5e4e7;
+    --input: #e5e4e7;
+    --ring: #6c3bff;
 }
 
 .dark {
-  --background: #0c0912;
-  --foreground: #ffffff;
-  --card: #16171d;
-  --card-foreground: #ffffff;
-  --popover: #14121a;
-  --popover-foreground: #ffffff;
-  --secondary: #14121a;
-  --secondary-foreground: #ffffff;
-  --muted: #1b1822;
-  --muted-foreground: #a8a0b8; /* Solid hex replacing rgba(255,255,255,0.62) for consistent rendering */
-  --accent: #1b1822;
-  --accent-foreground: #ffffff;
-  --destructive: #e5484d;
-  --destructive-foreground: #ffffff;
-  --border: #3b3440;
-  --input: #3b3440;
-  --ring: #6c3bff;
+    --background: #0c0912;
+    --foreground: #ffffff;
+    --card: #16171d;
+    --card-foreground: #ffffff;
+    --popover: #14121a;
+    --popover-foreground: #ffffff;
+    --secondary: #14121a;
+    --secondary-foreground: #ffffff;
+    --muted: #1b1822;
+    --muted-foreground: #a8a0b8; /* Solid hex replacing rgba(255,255,255,0.62) for consistent rendering */
+    --accent: #1b1822;
+    --accent-foreground: #ffffff;
+    --destructive: #e5484d;
+    --destructive-foreground: #ffffff;
+    --border: #3b3440;
+    --input: #3b3440;
+    --ring: #6c3bff;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  html {
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-  }
-  body {
-    @apply bg-background text-foreground font-sans;
-    font-size: 0.875rem;
-    line-height: 1.5;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-heading text-foreground;
-  }
-  ::selection {
-    /* Darker mix for better visibility in both modes */
-    background: color-mix(in srgb, var(--color-electric) 35%, var(--background));
-  }
+    * {
+        @apply border-border;
+    }
+    html {
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+    body {
+        @apply bg-background text-foreground font-sans;
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply font-heading text-foreground;
+    }
+    ::selection {
+        /* Darker mix for better visibility in both modes */
+        background: color-mix(in srgb, var(--color-electric) 35%, var(--background));
+    }
 }
 
 @layer components {
-  /* Bordered panel — the system's primary in-flow container (design.md §4/§8) */
-  .panel {
-    @apply rounded-md border border-border bg-card;
-  }
+    /* Bordered panel — the system's primary in-flow container (design.md §4/§8) */
+    .panel {
+        @apply border-border bg-card rounded-md border;
+    }
 
-  /* Mono uppercase tracking-wide label — the system's "this is metadata" signal */
-  .eyebrow {
-    @apply font-mono text-[0.6875rem] font-medium uppercase tracking-[0.05em] text-muted-foreground;
-  }
+    /* Mono uppercase tracking-wide label — the system's "this is metadata" signal */
+    .eyebrow {
+        @apply text-muted-foreground font-mono text-[0.6875rem] font-medium tracking-[0.05em] uppercase;
+    }
 
-  /* Corner tick marks — reserved for the single primary panel on a page */
-  .panel-ticks::before,
-  .panel-ticks::after {
-    content: "";
-    position: absolute;
-    top: -1px;
-    width: 0;
-    height: 0;
-    border-top: 5px solid var(--color-electric);
-  }
-  .panel-ticks::before {
-    left: -1px;
-    border-right: 5px solid transparent;
-  }
-  .panel-ticks::after {
-    right: -1px;
-    border-left: 5px solid transparent;
-  }
+    /* Corner tick marks — reserved for the single primary panel on a page */
+    .panel-ticks::before,
+    .panel-ticks::after {
+        content: "";
+        position: absolute;
+        top: -1px;
+        width: 0;
+        height: 0;
+        border-top: 5px solid var(--color-electric);
+    }
+    .panel-ticks::before {
+        left: -1px;
+        border-right: 5px solid transparent;
+    }
+    .panel-ticks::after {
+        right: -1px;
+        border-left: 5px solid transparent;
+    }
 
-  /* Page content region below the persistent shell (design.md §4) */
-  .page {
-    @apply mx-auto w-full max-w-[90rem] px-4 sm:px-6 lg:px-10;
-  }
+    /* Page content region below the persistent shell (design.md §4) */
+    .page {
+        @apply mx-auto w-full max-w-[90rem] px-4 sm:px-6 lg:px-10;
+    }
 }
 
 @keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(2px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(2px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
 @keyframes shimmer-light {
-  0% {
-    background-position: -400px 0;
-  }
-  100% {
-    background-position: 400px 0;
-  }
+    0% {
+        background-position: -400px 0;
+    }
+    100% {
+        background-position: 400px 0;
+    }
 }
 
 @keyframes shimmer-dark {
-  0% {
-    background-position: -400px 0;
-  }
-  100% {
-    background-position: 400px 0;
-  }
+    0% {
+        background-position: -400px 0;
+    }
+    100% {
+        background-position: 400px 0;
+    }
 }
 
 /* Skeleton shimmer - adaptive to theme */
 .skeleton-shimmer {
-  /* Light mode default */
-  background: linear-gradient(
-    90deg,
-    var(--color-skeleton-light) 25%,
-    var(--color-skeleton-light-shimmer) 37%,
-    var(--color-skeleton-light) 63%
-  );
-  background-size: 400px 100%;
-  animation: shimmer-light 1.4s ease infinite;
+    /* Light mode default */
+    background: linear-gradient(
+        90deg,
+        var(--color-skeleton-light) 25%,
+        var(--color-skeleton-light-shimmer) 37%,
+        var(--color-skeleton-light) 63%
+    );
+    background-size: 400px 100%;
+    animation: shimmer-light 1.4s ease infinite;
 }
 
 .dark .skeleton-shimmer {
-  /* Dark mode variant */
-  background: linear-gradient(
-    90deg,
-    var(--color-skeleton-dark) 25%,
-    var(--color-skeleton-dark-shimmer) 37%,
-    var(--color-skeleton-dark) 63%
-  );
-  animation: shimmer-dark 1.4s ease infinite;
+    /* Dark mode variant */
+    background: linear-gradient(
+        90deg,
+        var(--color-skeleton-dark) 25%,
+        var(--color-skeleton-dark-shimmer) 37%,
+        var(--color-skeleton-dark) 63%
+    );
+    animation: shimmer-dark 1.4s ease infinite;
 }
 
 .animate-fade-in {
-  animation: fade-in 0.2s ease-out both;
+    animation: fade-in 0.2s ease-out both;
 }
 
 .animate-scale-in {
-  animation: scale-in 0.2s ease-out both;
+    animation: scale-in 0.2s ease-out both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  ::before,
-  ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  .skeleton-shimmer {
-    animation: none;
-  }
+    *,
+    ::before,
+    ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    .skeleton-shimmer {
+        animation: none;
+    }
 }

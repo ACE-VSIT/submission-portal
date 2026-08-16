@@ -91,13 +91,13 @@ npm run build      # typecheck + production build
 
 ## Security model (never client-side only)
 
-| Resource | Students | Admins |
-|---|---|---|
-| `profiles` | read/update own row; **cannot change `role`** (trigger guard) | read all |
-| `domains` | read `is_visible = true` only | full CRUD |
-| `tasks` | read visible tasks in visible domains only | full CRUD |
-| `submissions` | select own, insert own, update own **failed** rows only; delete denied | full review (select/update `selected_for_interview` + `admin_notes`) |
-| `interview_records` | none | full CRUD |
+| Resource            | Students                                                               | Admins                                                               |
+| ------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `profiles`          | read/update own row; **cannot change `role`** (trigger guard)          | read all                                                             |
+| `domains`           | read `is_visible = true` only                                          | full CRUD                                                            |
+| `tasks`             | read visible tasks in visible domains only                             | full CRUD                                                            |
+| `submissions`       | select own, insert own, update own **failed** rows only; delete denied | full review (select/update `selected_for_interview` + `admin_notes`) |
+| `interview_records` | none                                                                   | full CRUD                                                            |
 
 Admin authorization is enforced by `public.is_admin()` (a `SECURITY DEFINER` function checking `profiles.role`), used in every policy. A student who bypasses the UI entirely still gets nothing — RLS rejects them at the database.
 

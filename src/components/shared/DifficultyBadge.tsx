@@ -8,22 +8,22 @@ import type { Difficulty } from "@/lib/types";
  * plus neutral — always paired with the text label, never color alone.
  */
 export function DifficultyBadge({ difficulty, className }: { difficulty: Difficulty; className?: string }) {
-  const meta = DIFFICULTY_META[difficulty];
-  return (
-    <Badge
-      variant={
-        difficulty === "easy"
-          ? "success"
-          : difficulty === "medium"
-            ? "warning"
-            : difficulty === "hard"
-              ? "error"
-              : "primary"
-      }
-      title={meta.hint}
-      className={className}
-    >
-      {difficultyLabel(difficulty)}
-    </Badge>
-  );
+    const meta = DIFFICULTY_META[difficulty];
+    return (
+        <Badge
+            variant={
+                difficulty === "easy"
+                    ? "success"
+                    : difficulty === "medium"
+                      ? "warning"
+                      : difficulty === "hard"
+                        ? "error"
+                        : "primary"
+            }
+            title={meta.hint}
+            className={className}
+        >
+            {difficultyLabel(difficulty)}
+        </Badge>
+    );
 }

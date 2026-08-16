@@ -7,24 +7,22 @@ import { supabaseUrl } from "./config";
  */
 
 export async function updateSubmissionReview(
-  id: string,
-  patch: { selected_for_interview?: boolean; admin_notes?: string | null },
+    id: string,
+    patch: { selected_for_interview?: boolean; admin_notes?: string | null }
 ): Promise<void> {
-  const { error } = await supabase.from("submissions").update(patch).eq("id", id);
-  if (error) throw error;
+    const { error } = await supabase.from("submissions").update(patch).eq("id", id);
+    if (error) throw error;
 }
 
 export async function upsertInterviewRecord(record: {
-  student_id: string;
-  domain_id: string;
-  interview_done: boolean;
-  selected_for_ace: boolean;
-  notes: string;
+    student_id: string;
+    domain_id: string;
+    interview_done: boolean;
+    selected_for_ace: boolean;
+    notes: string;
 }): Promise<void> {
-  const { error } = await supabase
-    .from("interview_records")
-    .upsert(record, { onConflict: "student_id,domain_id" });
-  if (error) throw error;
+    const { error } = await supabase.from("interview_records").upsert(record, { onConflict: "student_id,domain_id" });
+    if (error) throw error;
 }
 
 /**
@@ -35,5 +33,5 @@ export async function upsertInterviewRecord(record: {
  * session token and the role check still happens on the server.
  */
 export function buildPdfViewUrl(path: string, token: string): string {
-  return `${supabaseUrl}/functions/v1/view-pdf?path=${encodeURIComponent(path)}&token=${encodeURIComponent(token)}`;
+    return `${supabaseUrl}/functions/v1/view-pdf?path=${encodeURIComponent(path)}&token=${encodeURIComponent(token)}`;
 }

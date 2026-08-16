@@ -18,47 +18,47 @@ import { AdminInterviews } from "@/pages/admin/AdminInterviews";
 import { NotFoundPage } from "@/pages/NotFound";
 
 function RootRedirect() {
-  const { session, profile, loading } = useAuth();
-  if (loading) return null;
-  if (!session) return <Navigate to="/login" replace />;
-  if (profile?.role === "admin") return <Navigate to="/admin" replace />;
-  if (profile && !isProfileComplete(profile)) return <Navigate to="/app/profile" replace />;
-  return <Navigate to="/app/domains" replace />;
+    const { session, profile, loading } = useAuth();
+    if (loading) return null;
+    if (!session) return <Navigate to="/login" replace />;
+    if (profile?.role === "admin") return <Navigate to="/admin" replace />;
+    if (profile && !isProfileComplete(profile)) return <Navigate to="/app/profile" replace />;
+    return <Navigate to="/app/domains" replace />;
 }
 
 export default function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<RootRedirect />} />
-      <Route path="/login" element={<LoginPage />} />
+    return (
+        <Routes>
+            <Route path="/" element={<RootRedirect />} />
+            <Route path="/login" element={<LoginPage />} />
 
-      {/* Authenticated student portal */}
-      <Route element={<RequireAuth />}>
-        <Route path="/app" element={<AppShell />}>
-          <Route index element={<Navigate to="/app/domains" replace />} />
-          <Route path="profile" element={<ProfilePage />} />
-          <Route element={<RequireProfile />}>
-            <Route path="domains" element={<DomainsPage />} />
-            <Route path="domains/:domainId" element={<DomainTasksPage />} />
-            <Route path="domains/:domainId/tasks/:taskId" element={<TaskDetailPage />} />
-          </Route>
-        </Route>
-      </Route>
+            {/* Authenticated student portal */}
+            <Route element={<RequireAuth />}>
+                <Route path="/app" element={<AppShell />}>
+                    <Route index element={<Navigate to="/app/domains" replace />} />
+                    <Route path="profile" element={<ProfilePage />} />
+                    <Route element={<RequireProfile />}>
+                        <Route path="domains" element={<DomainsPage />} />
+                        <Route path="domains/:domainId" element={<DomainTasksPage />} />
+                        <Route path="domains/:domainId/tasks/:taskId" element={<TaskDetailPage />} />
+                    </Route>
+                </Route>
+            </Route>
 
-      {/* Admin dashboard — route guard + database-level RLS */}
-      <Route element={<RequireAuth />}>
-        <Route element={<RequireAdmin />}>
-          <Route path="/admin" element={<AppShell />}>
-            <Route index element={<AdminOverview />} />
-            <Route path="domains" element={<AdminDomains />} />
-            <Route path="domains/:domainId" element={<AdminTasks />} />
-            <Route path="reviews" element={<AdminReviews />} />
-            <Route path="interviews" element={<AdminInterviews />} />
-          </Route>
-        </Route>
-      </Route>
+            {/* Admin dashboard — route guard + database-level RLS */}
+            <Route element={<RequireAuth />}>
+                <Route element={<RequireAdmin />}>
+                    <Route path="/admin" element={<AppShell />}>
+                        <Route index element={<AdminOverview />} />
+                        <Route path="domains" element={<AdminDomains />} />
+                        <Route path="domains/:domainId" element={<AdminTasks />} />
+                        <Route path="reviews" element={<AdminReviews />} />
+                        <Route path="interviews" element={<AdminInterviews />} />
+                    </Route>
+                </Route>
+            </Route>
 
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
-  );
+            <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+    );
 }
