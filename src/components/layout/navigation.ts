@@ -1,6 +1,6 @@
 import type { NavSection } from "@/lib/types";
 import type { LucideIcon } from "lucide-react";
-import { LayoutDashboard, Layers, User, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, Layers, User, ShieldCheck, ClipboardCheck, UsersRound } from "lucide-react";
 
 export const studentNav: NavSection[] = [
   {
@@ -18,6 +18,8 @@ export const adminNav: NavSection[] = [
     items: [
       { label: "Overview", to: "/admin", icon: "dashboard", end: true },
       { label: "Domains", to: "/admin/domains", icon: "layers" },
+      { label: "Reviews", to: "/admin/reviews", icon: "clipboard" },
+      { label: "Interviews", to: "/admin/interviews", icon: "users" },
     ],
   },
 ];
@@ -27,11 +29,15 @@ export const iconMap: Record<string, LucideIcon> = {
   layers: Layers,
   user: User,
   shield: ShieldCheck,
+  clipboard: ClipboardCheck,
+  users: UsersRound,
 };
 
 export function labelForPath(pathname: string): string {
   if (pathname.startsWith("/admin")) {
     if (pathname === "/admin" || pathname === "/admin/") return "Overview";
+    if (pathname.startsWith("/admin/reviews")) return "Reviews";
+    if (pathname.startsWith("/admin/interviews")) return "Interviews";
     if (pathname.startsWith("/admin/domains")) return "Domains";
     return "Admin";
   }

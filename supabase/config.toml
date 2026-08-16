@@ -3,3 +3,9 @@ project_id = "ace-vsit-portal"
 
 [functions.upload-pdf]
 verify_jwt = true
+
+[functions.export-interviews]
+verify_jwt = true
+
+[functions.view-pdf]
+verify_jwt = true

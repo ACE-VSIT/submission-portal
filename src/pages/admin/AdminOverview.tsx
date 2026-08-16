@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { BarChart3, Layers, FileText, PanelTop, FolderKanban, ChevronRight } from "lucide-react";
+import { BarChart3, Layers, FileText, PanelTop, FolderKanban, ChevronRight, ClipboardCheck } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { Domain } from "@/lib/types";
 import { useFetch } from "@/hooks/useFetch";
@@ -46,7 +46,7 @@ export function AdminOverview() {
       <PageHeader
         crumbs={[{ label: "Admin" }, { label: "Overview" }]}
         title="Overview"
-        description="Domains and tasks are the only things you manage here — submission review lives in the separate portal."
+        description="Manage domains and tasks, review student submissions, and run the interview pipeline."
         actions={
           <Link to="/admin/domains">
             <Button>
@@ -138,14 +138,14 @@ export function AdminOverview() {
               </div>
               <ChevronRight className="size-4 text-muted-foreground" aria-hidden="true" />
             </Link>
-            <div className="panel flex items-center gap-4 p-5">
-              <Layers className="size-5 shrink-0 text-muted-foreground" strokeWidth={1.5} aria-hidden="true" />
+            <Link to="/admin/reviews" className="panel group flex items-center gap-4 p-5 transition-all duration-150 hover:border-muted-foreground/40">
+              <ClipboardCheck className="size-5 shrink-0 text-muted-foreground" strokeWidth={1.5} aria-hidden="true" />
               <div className="flex-1">
-                <p className="text-sm font-medium text-foreground">Submission review</p>
-                <p className="text-xs text-muted-foreground">Handled by the existing ACE review portal — out of scope here.</p>
+                <p className="text-sm font-medium text-foreground group-hover:text-electric">Review &amp; interviews</p>
+                <p className="text-xs text-muted-foreground">Shortlist submissions, track interviews and selections, export the panel.</p>
               </div>
-              <Badge variant="warning">Later</Badge>
-            </div>
+              <ChevronRight className="size-4 text-muted-foreground" aria-hidden="true" />
+            </Link>
           </div>
         </>
       )}

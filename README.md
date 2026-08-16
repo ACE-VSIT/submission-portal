@@ -96,9 +96,17 @@ npm run build      # typecheck + production build
 | `profiles` | read/update own row; **cannot change `role`** (trigger guard) | read all |
 | `domains` | read `is_visible = true` only | full CRUD |
 | `tasks` | read visible tasks in visible domains only | full CRUD |
-| `submissions` | select own, insert own, update own **failed** rows only; delete denied | read (review tooling is a future portal) |
+| `submissions` | select own, insert own, update own **failed** rows only; delete denied | full review (select/update `selected_for_interview` + `admin_notes`) |
+| `interview_records` | none | full CRUD |
 
 Admin authorization is enforced by `public.is_admin()` (a `SECURITY DEFINER` function checking `profiles.role`), used in every policy. A student who bypasses the UI entirely still gets nothing — RLS rejects them at the database.
+
+## Admin review & interview pipeline (ported from admintable-old)
+
+- `Reviews` (`/admin/reviews`) — every student with submissions, filters (search / domain / year / selection), per-task "selected for interview" checkbox + persistent admin notes, stat cells (students, submissions, top tasks).
+- `Interviews` (`/admin/interviews`) — students shortlisted for at least one task, grouped by domain, per student × domain interview-done / selected-for-ACE checkboxes and interview notes (stored in `interview_records`), plus a server-side CSV export (`export-interviews` edge function).
+- `view-pdf` edge function — admin-only proxy that streams privately stored PDFs (HF_TOKEN stays server-side).
+- Migration: `supabase/migrations/0004_admin_review.sql` — adds `submissions.selected_for_interview`, `submissions.admin_notes`, the `interview_records` table, and admin-only RLS + guards.
 
 ## MVP checklist (PRD §32)
 

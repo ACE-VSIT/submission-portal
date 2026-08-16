@@ -13,6 +13,8 @@ import { TaskDetailPage } from "@/pages/student/TaskDetailPage";
 import { AdminOverview } from "@/pages/admin/AdminOverview";
 import { AdminDomains } from "@/pages/admin/AdminDomains";
 import { AdminTasks } from "@/pages/admin/AdminTasks";
+import { AdminReviews } from "@/pages/admin/AdminReviews";
+import { AdminInterviews } from "@/pages/admin/AdminInterviews";
 import { NotFoundPage } from "@/pages/NotFound";
 
 function RootRedirect() {
@@ -50,6 +52,8 @@ export default function App() {
             <Route index element={<AdminOverview />} />
             <Route path="domains" element={<AdminDomains />} />
             <Route path="domains/:domainId" element={<AdminTasks />} />
+            <Route path="reviews" element={<AdminReviews />} />
+            <Route path="interviews" element={<AdminInterviews />} />
           </Route>
         </Route>
       </Route>

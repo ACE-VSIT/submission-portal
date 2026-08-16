@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, CornerDownLeft, Layers, User, LayoutDashboard } from "lucide-react";
+import { Search, CornerDownLeft, Layers, User, LayoutDashboard, ClipboardCheck, UsersRound } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +24,8 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
       base.push(
         { label: "Admin overview", to: "/admin", group: "Admin", icon: LayoutDashboard },
         { label: "Manage domains", to: "/admin/domains", group: "Admin", icon: Layers },
+        { label: "Review submissions", to: "/admin/reviews", group: "Admin", icon: ClipboardCheck },
+        { label: "Interview panel", to: "/admin/interviews", group: "Admin", icon: UsersRound },
       );
     }
     base.push(

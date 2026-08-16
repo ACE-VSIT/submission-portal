@@ -47,7 +47,22 @@ export interface Submission {
   pdf_reference: string | null;
   links: string[];
   status: "submitted" | "failed";
+  /** Admin review: shortlist this task submission for an interview (ported from admintable-old). */
+  selected_for_interview?: boolean;
+  /** Admin review: private per-submission note (ported from admintable-old). */
+  admin_notes?: string | null;
   submitted_at: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface InterviewRecord {
+  id: string;
+  student_id: string;
+  domain_id: string;
+  interview_done: boolean;
+  selected_for_ace: boolean;
+  notes: string;
   created_at: string;
   updated_at: string;
 }
