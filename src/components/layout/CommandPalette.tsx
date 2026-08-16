@@ -140,7 +140,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
                   onMouseEnter={() => setActive(i)}
                   className={cn(
                     "flex w-full items-center gap-2.5 rounded-sm px-2 py-2 text-left text-sm transition-colors duration-100",
-                    i === active ? "bg-beige text-primary dark:bg-accent" : "text-foreground",
+                    i === active ? "bg-secondary text-secondary-foreground" : "text-foreground hover:bg-secondary hover:text-secondary-foreground",
                   )}
                 >
                   <Icon className="size-4 shrink-0 text-muted-foreground" strokeWidth={1.75} aria-hidden="true" />

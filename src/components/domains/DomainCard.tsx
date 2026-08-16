@@ -12,7 +12,7 @@ export function DomainCard({ domain, taskCount }: DomainCardProps) {
   return (
     <Link
       to={`/app/domains/${domain.id}`}
-      className="group panel relative flex flex-col p-5 transition-all duration-150 hover:border-nickel/40 sm:p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric"
+      className="group panel relative flex flex-col p-5 transition-all duration-150 hover:border-muted-foreground/40 sm:p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric"
     >
       <div className="flex items-center justify-between gap-3">
         <span className="eyebrow flex items-center gap-1.5">

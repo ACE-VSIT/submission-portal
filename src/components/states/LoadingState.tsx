@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export function TableSkeleton({ rows = 5 }: { rows?: number }) {
   return (
     <div className="w-full" role="status" aria-label="Loading">
-      <div className="border-b border-border bg-beige px-5 py-3">
+      <div className="border-b border-border bg-secondary px-5 py-3">
         <Skeleton className="h-3 w-32" />
       </div>
       {Array.from({ length: rows }).map((_, i) => (

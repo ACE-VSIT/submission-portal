@@ -51,7 +51,7 @@ export function ProfilePage() {
           <div className="panel p-5 sm:p-6">
             <p className="eyebrow mb-4">Account</p>
             <div className="flex items-center gap-3">
-              <div className="flex size-10 items-center justify-center rounded-full bg-beige text-sm font-medium text-nickel dark:bg-slate">
+              <div className="flex size-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground text-sm font-medium">
                 {(profile.full_name || "AC").slice(0, 2).toUpperCase()}
               </div>
               <div className="min-w-0">

@@ -158,7 +158,7 @@ export function AdminTasks() {
         </div>
       ) : (
         <div className="panel overflow-hidden">
-          <div className="hidden grid-cols-[1fr_120px_120px_110px_150px_120px] gap-4 border-b border-border bg-beige px-5 py-3 dark:bg-accent md:grid">
+          <div className="hidden grid-cols-[1fr_120px_120px_110px_150px_120px] gap-4 border-b border-border bg-secondary px-5 py-3 md:grid">
             <span className="eyebrow">Task</span>
             <span className="eyebrow">Difficulty</span>
             <span className="eyebrow">Submission</span>
@@ -168,7 +168,7 @@ export function AdminTasks() {
           </div>
           <ul className="divide-y divide-border">
             {tasks.map((task, i) => (
-              <li key={task.id} className="flex flex-col gap-3 px-5 py-4 transition-colors duration-150 hover:bg-beige/60 dark:hover:bg-accent/50 md:flex-row md:items-center md:gap-4">
+              <li key={task.id} className="flex flex-col gap-3 px-5 py-4 transition-colors duration-150 hover:bg-secondary/60 md:flex-row md:items-center md:gap-4">
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium text-foreground">
                     <span className="mr-2 font-mono text-[0.625rem] uppercase tracking-[0.05em] text-muted-foreground">
@@ -204,7 +204,7 @@ export function AdminTasks() {
                   <button
                     onClick={() => move(i, -1)}
                     disabled={i === 0 || reorderBusy}
-                    className="rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-beige hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric disabled:pointer-events-none disabled:opacity-40"
+                    className="rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-secondary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric disabled:pointer-events-none disabled:opacity-40"
                     aria-label={`Move ${task.name} up`}
                   >
                     <ArrowUp className="size-4" aria-hidden="true" />
@@ -212,7 +212,7 @@ export function AdminTasks() {
                   <button
                     onClick={() => move(i, 1)}
                     disabled={i === tasks.length - 1 || reorderBusy}
-                    className="rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-beige hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric disabled:pointer-events-none disabled:opacity-40"
+                    className="rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-secondary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric disabled:pointer-events-none disabled:opacity-40"
                     aria-label={`Move ${task.name} down`}
                   >
                     <ArrowDown className="size-4" aria-hidden="true" />
@@ -222,7 +222,7 @@ export function AdminTasks() {
                       setEditing(task);
                       setFormOpen(true);
                     }}
-                    className="rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-beige hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric"
+                    className="rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-secondary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric"
                     aria-label={`Edit ${task.name}`}
                   >
                     <Pencil className="size-4" aria-hidden="true" />

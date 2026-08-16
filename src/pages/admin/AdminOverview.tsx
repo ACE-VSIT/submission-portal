@@ -104,7 +104,7 @@ export function AdminOverview() {
                   <li key={domain.id}>
                     <Link
                       to={`/admin/domains/${domain.id}`}
-                      className="group flex items-center gap-4 px-5 py-3.5 transition-colors duration-150 hover:bg-beige dark:hover:bg-accent sm:px-6"
+                      className="group flex items-center gap-4 px-5 py-3.5 transition-colors duration-150 hover:bg-secondary sm:px-6"
                     >
                       <PanelTop className="size-4 shrink-0 text-muted-foreground" strokeWidth={1.5} aria-hidden="true" />
                       <div className="min-w-0 flex-1">
@@ -130,7 +130,7 @@ export function AdminOverview() {
           </section>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            <Link to="/app/domains" className="panel group flex items-center gap-4 p-5 transition-all duration-150 hover:border-nickel/40">
+            <Link to="/app/domains" className="panel group flex items-center gap-4 p-5 transition-all duration-150 hover:border-muted-foreground/40">
               <FileText className="size-5 shrink-0 text-muted-foreground" strokeWidth={1.5} aria-hidden="true" />
               <div className="flex-1">
                 <p className="text-sm font-medium text-foreground group-hover:text-electric">Student portal</p>

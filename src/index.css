@@ -28,6 +28,17 @@
   --color-warning: #f5a623;
   --color-error: #e5484d;
 
+  /* Semantic foreground tokens for contrast on colored backgrounds */
+  --color-success-foreground: #ffffff;
+  --color-warning-foreground: #16171d;
+  --color-error-foreground: #ffffff;
+
+  /* Skeleton loader tokens (adaptive) */
+  --color-skeleton-light: #e5e4e7;
+  --color-skeleton-light-shimmer: #f0f0f3;
+  --color-skeleton-dark: #1b1822;
+  --color-skeleton-dark-shimmer: #262330;
+
   /* Radius (design.md §6) */
   --radius-xs: 0.125rem;
   --radius-sm: 0.25rem;
@@ -63,7 +74,7 @@
   --secondary: #f4f3ec;
   --secondary-foreground: #16171d;
   --muted: #f4f3ec;
-  --muted-foreground: #867e8e;
+  --muted-foreground: #6e6678; /* Darkened from #867e8e for WCAG AA contrast on beige */
   --accent: #f4f3ec;
   --accent-foreground: #16171d;
   --destructive: #e5484d;
@@ -83,7 +94,7 @@
   --secondary: #14121a;
   --secondary-foreground: #ffffff;
   --muted: #1b1822;
-  --muted-foreground: rgba(255, 255, 255, 0.62);
+  --muted-foreground: #a8a0b8; /* Solid hex replacing rgba(255,255,255,0.62) for consistent rendering */
   --accent: #1b1822;
   --accent-foreground: #ffffff;
   --destructive: #e5484d;
@@ -135,7 +146,8 @@
     @apply font-heading text-foreground;
   }
   ::selection {
-    background: color-mix(in srgb, var(--color-electric) 20%, transparent);
+    /* Darker mix for better visibility in both modes */
+    background: color-mix(in srgb, var(--color-electric) 35%, var(--background));
   }
 }
 
@@ -197,7 +209,7 @@
   }
 }
 
-@keyframes shimmer {
+@keyframes shimmer-light {
   0% {
     background-position: -400px 0;
   }
@@ -206,18 +218,45 @@
   }
 }
 
+@keyframes shimmer-dark {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+/* Skeleton shimmer - adaptive to theme */
+.skeleton-shimmer {
+  /* Light mode default */
+  background: linear-gradient(
+    90deg,
+    var(--color-skeleton-light) 25%,
+    var(--color-skeleton-light-shimmer) 37%,
+    var(--color-skeleton-light) 63%
+  );
+  background-size: 400px 100%;
+  animation: shimmer-light 1.4s ease infinite;
+}
+
+.dark .skeleton-shimmer {
+  /* Dark mode variant */
+  background: linear-gradient(
+    90deg,
+    var(--color-skeleton-dark) 25%,
+    var(--color-skeleton-dark-shimmer) 37%,
+    var(--color-skeleton-dark) 63%
+  );
+  animation: shimmer-dark 1.4s ease infinite;
+}
+
 .animate-fade-in {
   animation: fade-in 0.2s ease-out both;
 }
 
 .animate-scale-in {
   animation: scale-in 0.2s ease-out both;
-}
-
-.skeleton-shimmer {
-  background: linear-gradient(90deg, var(--color-stroke) 25%, color-mix(in srgb, var(--color-stroke) 60%, white) 37%, var(--color-stroke) 63%);
-  background-size: 400px 100%;
-  animation: shimmer 1.4s ease infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -13,8 +13,8 @@ const buttonVariants = cva(
         default:
           "bg-electric text-white hover:scale-[1.05] hover:shadow-dropdown hover:bg-electric/95 rounded-md",
         secondary:
-          "border border-border bg-card text-primary hover:bg-beige rounded-sm",
-        ghost: "text-primary hover:bg-beige rounded-sm",
+          "border border-border bg-card text-foreground hover:bg-secondary hover:text-secondary-foreground rounded-sm",
+        ghost: "text-foreground hover:bg-secondary hover:text-secondary-foreground rounded-sm",
         danger:
           "border border-error/40 bg-error/5 text-error hover:bg-error/10 rounded-sm",
         destructive:

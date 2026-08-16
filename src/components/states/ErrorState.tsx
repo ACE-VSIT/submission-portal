@@ -1,5 +1,6 @@
 import { AlertTriangle, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface ErrorStateProps {
   title?: string;
@@ -12,7 +13,13 @@ interface ErrorStateProps {
 export function ErrorState({ title = "Something went wrong", message, onRetry, compact }: ErrorStateProps) {
   return (
     <div
-      className={compact ? "flex items-center gap-3 rounded-sm border border-error/30 bg-error/5 px-4 py-3" : "flex flex-col items-center justify-center px-6 py-16 text-center"}
+      className={cn(
+        compact
+          ? "flex items-center gap-3 rounded-sm border border-error/30 bg-error/5 px-4 py-3"
+          : "flex flex-col items-center justify-center px-6 py-16 text-center",
+        // Dark mode: stronger error background for visibility
+        compact ? "dark:border-error/50 dark:bg-error/15" : "dark:bg-error/10",
+      )}
       role="alert"
     >
       <AlertTriangle className={compact ? "size-4 shrink-0 text-error" : "mb-4 size-8 text-error"} strokeWidth={1.5} aria-hidden="true" />

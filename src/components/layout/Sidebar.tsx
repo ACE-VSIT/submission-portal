@@ -38,8 +38,8 @@ function NavSectionBlock({
               className={cn(
                 "group relative flex h-9 items-center gap-2 rounded-sm px-3 text-sm transition-colors duration-150",
                 active
-                  ? "bg-vite/10 font-medium text-primary"
-                  : "text-muted-foreground hover:bg-beige hover:text-primary",
+                  ? "bg-vite/10 font-medium text-foreground"
+                  : "text-muted-foreground hover:bg-secondary hover:text-secondary-foreground",
               )}
             >
               {active && <span className="absolute left-0 h-5 w-0.5 rounded-full bg-electric" aria-hidden="true" />}
@@ -78,7 +78,7 @@ export function Sidebar({ collapsed, mobileOpen, onMobileClose }: SidebarProps) 
           </div>
         )}
         <button
-          className="ml-auto rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-beige hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric md:hidden"
+          className="ml-auto rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-secondary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric md:hidden"
           onClick={onMobileClose}
           aria-label="Close navigation"
         >
@@ -97,7 +97,7 @@ export function Sidebar({ collapsed, mobileOpen, onMobileClose }: SidebarProps) 
           <Link
             to="/app/domains"
             onClick={onMobileClose}
-            className="mb-1 flex h-8 items-center gap-2 rounded-sm px-3 text-sm text-muted-foreground transition-colors hover:bg-beige hover:text-primary"
+            className="mb-1 flex h-8 items-center gap-2 rounded-sm px-3 text-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-secondary-foreground"
           >
             {!collapsed ? (
               <span className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.05em]">
@@ -109,7 +109,7 @@ export function Sidebar({ collapsed, mobileOpen, onMobileClose }: SidebarProps) 
           </Link>
         )}
         <div className="flex items-center gap-2 rounded-sm px-3 py-2">
-          <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-beige text-[0.625rem] font-medium text-nickel dark:bg-slate">
+          <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground text-[0.625rem] font-medium">
             {profile?.full_name?.slice(0, 2).toUpperCase() ?? "AC"}
           </div>
           {!collapsed && (
@@ -145,7 +145,7 @@ export function Sidebar({ collapsed, mobileOpen, onMobileClose }: SidebarProps) 
       )}
       <aside
         className={cn(
-          "hidden shrink-0 border-r border-border bg-beige dark:bg-slate md:block",
+          "hidden shrink-0 border-r border-border bg-secondary md:block",
           collapsed ? "w-16" : "w-60",
         )}
         aria-label="Primary navigation"

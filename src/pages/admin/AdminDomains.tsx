@@ -132,7 +132,7 @@ export function AdminDomains() {
 
       {!loading && !error && domains.length > 0 && (
         <div className="panel overflow-hidden">
-          <div className="hidden grid-cols-[1fr_110px_110px_140px_120px] gap-4 border-b border-border bg-beige px-5 py-3 dark:bg-accent md:grid">
+          <div className="hidden grid-cols-[1fr_110px_110px_140px_120px] gap-4 border-b border-border bg-secondary px-5 py-3 md:grid">
             <span className="eyebrow">Domain</span>
             <span className="eyebrow">Tasks</span>
             <span className="eyebrow">Visibility</span>
@@ -141,7 +141,7 @@ export function AdminDomains() {
           </div>
           <ul className="divide-y divide-border">
             {domains.map((domain, i) => (
-              <li key={domain.id} className="group flex flex-col gap-3 px-5 py-4 transition-colors duration-150 hover:bg-beige/60 dark:hover:bg-accent/50 md:flex-row md:items-center md:gap-4">
+              <li key={domain.id} className="group flex flex-col gap-3 px-5 py-4 transition-colors duration-150 hover:bg-secondary/60 md:flex-row md:items-center md:gap-4">
                 <div className="flex min-w-0 flex-1 items-center gap-3">
                   <GripVertical className="hidden size-4 shrink-0 text-muted-foreground/50 md:block" aria-hidden="true" />
                   <Link to={`/admin/domains/${domain.id}`} className="min-w-0">
@@ -180,7 +180,7 @@ export function AdminDomains() {
                   <button
                     onClick={() => move(i, -1)}
                     disabled={i === 0 || reorderBusy}
-                    className="rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-beige hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric disabled:pointer-events-none disabled:opacity-40"
+                    className="rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-secondary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric disabled:pointer-events-none disabled:opacity-40"
                     aria-label={`Move ${domain.name} up`}
                   >
                     <ArrowUp className="size-4" aria-hidden="true" />
@@ -188,14 +188,14 @@ export function AdminDomains() {
                   <button
                     onClick={() => move(i, 1)}
                     disabled={i === domains.length - 1 || reorderBusy}
-                    className="rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-beige hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric disabled:pointer-events-none disabled:opacity-40"
+                    className="rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-secondary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric disabled:pointer-events-none disabled:opacity-40"
                     aria-label={`Move ${domain.name} down`}
                   >
                     <ArrowDown className="size-4" aria-hidden="true" />
                   </button>
                   <Link
                     to={`/admin/domains/${domain.id}`}
-                    className="hidden rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-beige hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric md:block"
+                    className="hidden rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-secondary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric md:block"
                     aria-label={`Manage tasks in ${domain.name}`}
                   >
                     <ChevronRight className="size-4" aria-hidden="true" />
@@ -205,7 +205,7 @@ export function AdminDomains() {
                       setEditing(domain);
                       setFormOpen(true);
                     }}
-                    className="rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-beige hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric"
+                    className="rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-secondary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric"
                     aria-label={`Edit ${domain.name}`}
                   >
                     <Pencil className="size-4" aria-hidden="true" />

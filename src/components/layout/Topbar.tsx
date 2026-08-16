@@ -36,14 +36,14 @@ export function Topbar({ onOpenMobileNav, onOpenPalette, onToggleCollapse }: Top
   return (
     <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center gap-2 border-b border-border bg-card px-3 sm:px-4">
       <button
-        className="rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-beige hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric md:hidden"
+        className="rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-secondary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric md:hidden"
         onClick={onOpenMobileNav}
         aria-label="Open navigation"
       >
         <Menu className="size-5" aria-hidden="true" />
       </button>
       <button
-        className="hidden rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-beige hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric md:block"
+        className="hidden rounded-sm p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-secondary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric md:block"
         onClick={onToggleCollapse}
         aria-label="Toggle sidebar"
       >
@@ -61,7 +61,7 @@ export function Topbar({ onOpenMobileNav, onOpenPalette, onToggleCollapse }: Top
       <div className="ml-auto flex items-center gap-1.5">
         <button
           onClick={onOpenPalette}
-          className="hidden h-8 w-56 items-center gap-2 rounded-sm border border-border bg-card px-2.5 text-sm text-muted-foreground transition-colors hover:border-nickel/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric sm:flex"
+          className="hidden h-8 w-56 items-center gap-2 rounded-sm border border-border bg-card px-2.5 text-sm text-muted-foreground transition-colors hover:border-muted-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric sm:flex"
           aria-label="Open command palette"
         >
           <Search className="size-3.5" aria-hidden="true" />
@@ -78,10 +78,10 @@ export function Topbar({ onOpenMobileNav, onOpenPalette, onToggleCollapse }: Top
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
-              className="flex h-8 items-center gap-1.5 rounded-sm px-1.5 transition-colors hover:bg-beige focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric"
+              className="flex h-8 items-center gap-1.5 rounded-sm px-1.5 transition-colors hover:bg-secondary hover:text-secondary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric"
               aria-label="Account menu"
             >
-              <span className="flex size-7 items-center justify-center rounded-full bg-beige text-[0.625rem] font-medium text-nickel dark:bg-slate">
+              <span className="flex size-7 items-center justify-center rounded-full bg-secondary text-secondary-foreground text-[0.625rem] font-medium">
                 {profile?.full_name?.slice(0, 2).toUpperCase() ?? "AC"}
               </span>
               <ChevronDown className="size-3.5 text-muted-foreground" aria-hidden="true" />
