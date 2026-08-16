@@ -78,14 +78,6 @@ export function ProfilePage() {
                 <dt className="font-mono text-[0.625rem] uppercase tracking-[0.05em] text-muted-foreground">Course</dt>
                 <dd className="mt-0.5 text-sm text-foreground">{profile.course || "—"}</dd>
               </div>
-              <div>
-                <dt className="font-mono text-[0.625rem] uppercase tracking-[0.05em] text-muted-foreground">College</dt>
-                <dd className="mt-0.5 text-sm text-foreground">{profile.college || "—"}</dd>
-              </div>
-              <div>
-                <dt className="font-mono text-[0.625rem] uppercase tracking-[0.05em] text-muted-foreground">Graduation year</dt>
-                <dd className="mt-0.5 text-sm text-foreground">{profile.graduation_year || "—"}</dd>
-              </div>
             </dl>
           </div>
 

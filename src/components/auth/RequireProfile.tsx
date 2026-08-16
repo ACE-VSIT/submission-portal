@@ -6,16 +6,11 @@ export function isProfileComplete(p: {
   full_name: string;
   phone: string;
   course: string;
-  college: string;
-  graduation_year: number | null;
 }) {
   return Boolean(
     p.full_name?.trim() &&
       p.phone?.trim() &&
-      p.course?.trim() &&
-      p.college?.trim() &&
-      p.graduation_year != null &&
-      p.graduation_year > 0,
+      p.course?.trim(),
   );
 }
 

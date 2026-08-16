@@ -21,15 +21,13 @@ interface ProfileFormProps {
   submitLabel?: string;
 }
 
-const YEAR_OPTIONS = Array.from({ length: 12 }, (_, i) => 2024 + i);
+const COURSE_OPTIONS = ["BCA", "MCA"] as const;
 
 export function ProfileForm({ initial, onSaved, submitLabel = "Save profile" }: ProfileFormProps) {
   const { refreshProfile } = useAuth();
   const [fullName, setFullName] = React.useState(initial?.full_name ?? "");
   const [phone, setPhone] = React.useState(initial?.phone ?? "");
-  const [course, setCourse] = React.useState(initial?.course ?? "");
-  const [college, setCollege] = React.useState(initial?.college ?? "");
-  const [graduationYear, setGraduationYear] = React.useState<number | "">(initial?.graduation_year ?? "");
+  const [course, setCourse] = React.useState<"BCA" | "MCA" | "">(initial?.course ?? "");
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [saving, setSaving] = React.useState(false);
 
@@ -38,9 +36,7 @@ export function ProfileForm({ initial, onSaved, submitLabel = "Save profile" }: 
     if (!fullName.trim()) next.fullName = "Full name is required.";
     if (!phone.trim()) next.phone = "Phone number is required.";
     else if (!/^[+0-9 ()-]{7,}$/.test(phone.trim())) next.phone = "Enter a valid phone number.";
-    if (!course.trim()) next.course = "Course is required.";
-    if (!college.trim()) next.college = "College / institution is required.";
-    if (!graduationYear) next.graduationYear = "Select your graduation year.";
+    if (!course) next.course = "Course is required.";
     return next;
   };
 
@@ -60,9 +56,7 @@ export function ProfileForm({ initial, onSaved, submitLabel = "Save profile" }: 
         .update({
           full_name: fullName.trim(),
           phone: phone.trim(),
-          course: course.trim(),
-          college: college.trim(),
-          graduation_year: Number(graduationYear),
+          course: course,
         })
         .eq("id", data.user.id);
 
@@ -118,47 +112,20 @@ export function ProfileForm({ initial, onSaved, submitLabel = "Save profile" }: 
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="pf-course">Course</Label>
-          <Input
-            id="pf-course"
-            value={course}
-            onChange={(e) => setCourse(e.target.value)}
-            placeholder="e.g. B.Tech CSE (AIML)"
-            {...field("course")}
-          />
+          <Select value={course} onValueChange={(v) => setCourse(v as "BCA" | "MCA" | "")}>
+            <SelectTrigger id="pf-course" className={cn(errors.course && "aria-[invalid=true]:border-error")} aria-invalid={errors.course ? true : undefined}>
+              <SelectValue placeholder="Select course" />
+            </SelectTrigger>
+            <SelectContent>
+              {COURSE_OPTIONS.map((c) => (
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           {errors.course && <p className="text-sm text-error">{errors.course}</p>}
         </div>
-      </div>
-
-      <div className="space-y-1.5">
-        <Label htmlFor="pf-college">College / institution</Label>
-        <Input
-          id="pf-college"
-          value={college}
-          onChange={(e) => setCollege(e.target.value)}
-          placeholder="Your college or institution"
-          {...field("college")}
-        />
-        {errors.college && <p className="text-sm text-error">{errors.college}</p>}
-      </div>
-
-      <div className="space-y-1.5">
-        <Label htmlFor="pf-year">Graduation year</Label>
-        <Select
-          value={graduationYear === "" ? undefined : String(graduationYear)}
-          onValueChange={(v) => setGraduationYear(Number(v))}
-        >
-          <SelectTrigger id="pf-year" className={cn(errors.graduationYear && "aria-[invalid=true]:border-error")} aria-invalid={errors.graduationYear ? true : undefined}>
-            <SelectValue placeholder="Select year" />
-          </SelectTrigger>
-          <SelectContent>
-            {YEAR_OPTIONS.map((y) => (
-              <SelectItem key={y} value={String(y)}>
-                {y}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        {errors.graduationYear && <p className="text-sm text-error">{errors.graduationYear}</p>}
       </div>
 
       <div className="flex justify-end pt-2">
