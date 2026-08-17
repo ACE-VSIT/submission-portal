@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { AppShell } from "@/components/layout/AppShell";
 import { RequireStaff } from "@/components/auth/RequireStaff";
 import { RequireAuth } from "@/components/auth/RequireAuth";
+import { RequireAdmin } from "@/components/auth/RequireAdmin";
 import { RequireProfile } from "@/components/auth/RequireProfile";
 import { LoginPage } from "@/pages/auth/LoginPage";
 import { useAuth } from "@/context/AuthContext";
@@ -46,15 +47,17 @@ export default function App() {
             </Route>
 
             {/* Admin dashboard — route guard + database-level RLS */}
-            {/* Both admin and mentor roles can access this section */}
+            {/* Both admin and mentor can access; domain management is admin-only */}
             <Route element={<RequireAuth />}>
                 <Route element={<RequireStaff />}>
                     <Route path="/admin" element={<AppShell />}>
                         <Route index element={<AdminOverview />} />
-                        <Route path="domains" element={<AdminDomains />} />
-                        <Route path="domains/:domainId" element={<AdminTasks />} />
                         <Route path="reviews" element={<AdminReviews />} />
                         <Route path="interviews" element={<AdminInterviews />} />
+                        <Route element={<RequireAdmin />}>
+                            <Route path="domains" element={<AdminDomains />} />
+                            <Route path="domains/:domainId" element={<AdminTasks />} />
+                        </Route>
                     </Route>
                 </Route>
             </Route>

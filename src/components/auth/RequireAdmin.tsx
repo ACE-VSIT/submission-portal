@@ -15,7 +15,7 @@ export function RequireAdmin() {
 
     // Profile still resolving or role unknown — show structure, not a flash of content.
     if (profile === null) return <FullPageLoader />;
-    if (profile.role !== "admin") return <Navigate to="/app/domains" replace />;
+    if (profile.role !== "admin") return <Navigate to="/admin" replace />;
 
     return <Outlet />;
 }
