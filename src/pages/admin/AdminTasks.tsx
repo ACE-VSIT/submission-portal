@@ -129,7 +129,7 @@ export function AdminTasks() {
                         {domain.name}
                     </h1>
                     <p className="text-muted-foreground mt-1.5 max-w-2xl text-sm text-pretty">
-                        {tasks.length} {tasks.length === 1 ? "task" : "tasks"} — create, edit, reorder and control
+                        {tasks.length} {tasks.length === 1 ? "task" : "tasks"} - create, edit, reorder and control
                         visibility.
                     </p>
                 </div>
@@ -150,7 +150,7 @@ export function AdminTasks() {
                         icon={ClipboardList}
                         eyebrow="No tasks"
                         title="Add the first task"
-                        description="A typical domain has 5–8 tasks across Easy to Extreme — but the distribution is entirely up to you."
+                        description="A typical domain has 5–8 tasks across Easy to Extreme - but the distribution is entirely up to you."
                         action={
                             <Button
                                 onClick={() => {

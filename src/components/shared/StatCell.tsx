@@ -8,8 +8,8 @@ interface StatCellProps {
     className?: string;
 }
 
-/** Design.md §4/§8 KPI stat cell — mono uppercase caption + heading numeral,
- *  baseline-aligned, divider-separated — never a shadowed floating card. */
+/** Design.md §4/§8 KPI stat cell - mono uppercase caption + heading numeral,
+ *  baseline-aligned, divider-separated - never a shadowed floating card. */
 export function StatCell({ label, value, hint, trend, className }: StatCellProps) {
     return (
         <div className={cn("p-6", className)}>

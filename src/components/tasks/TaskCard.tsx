@@ -13,7 +13,7 @@ interface TaskCardProps {
 }
 
 /**
- * Timeline-style task row (design.md §9) — not a spreadsheet. Difficulty is
+ * Timeline-style task row (design.md §9) - not a spreadsheet. Difficulty is
  * immediately readable via the badge + bordered panel, submission status is
  * a full chip, never a tiny icon.
  */

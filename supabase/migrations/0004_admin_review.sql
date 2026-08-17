@@ -2,9 +2,9 @@
 -- Admin review & interview pipeline (migrated from admintable-old)
 --
 -- Adds everything the admin needs to track submissions end-to-end:
---   • submissions.selected_for_interview  — per-task "shortlist for interview"
---   • submissions.admin_notes             — per-task private admin notes
---   • interview_records                   — per student × domain interview state
+--   • submissions.selected_for_interview  - per-task "shortlist for interview"
+--   • submissions.admin_notes             - per-task private admin notes
+--   • interview_records                   - per student × domain interview state
 --       (interview_done, selected_for_ace, notes)
 --
 -- Run with:  supabase db push   (or paste into Dashboard → SQL Editor)
@@ -38,7 +38,7 @@ create trigger interview_records_updated_at
   before update on public.interview_records
   for each row execute function public.set_updated_at();
 
--- RLS — admin-only, same style as domains/tasks policies.
+-- RLS - admin-only, same style as domains/tasks policies.
 alter table public.interview_records enable row level security;
 
 drop policy if exists "interview_records_select_admin" on public.interview_records;
@@ -58,7 +58,7 @@ create policy "interview_records_delete_admin" on public.interview_records
   for delete using (public.is_admin());
 
 -- 3) Admins may update submission review fields (students keep their own-row
---    update for failed resubmission only — see submissions_update_own).
+--    update for failed resubmission only - see submissions_update_own).
 drop policy if exists "submissions_review_admin" on public.submissions;
 create policy "submissions_review_admin" on public.submissions
   for update using (public.is_admin()) with check (public.is_admin());

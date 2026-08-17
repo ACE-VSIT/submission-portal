@@ -104,7 +104,7 @@ export function DomainTasksPage() {
                             <DifficultyBadge difficulty="hard" />
                             <DifficultyBadge difficulty="extreme" />
                             <span className="text-muted-foreground hidden font-mono text-[0.625rem] tracking-[0.05em] uppercase sm:inline">
-                                Work through them in order — each level builds on the last.
+                                Work through them in order - each level builds on the last.
                             </span>
                         </div>
                     </div>

@@ -70,7 +70,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
 
     React.useEffect(() => setActive(0), [query]);
 
-    // Global ⌘K / Ctrl+K trigger — AppShell owns the open/closed state, so we
+    // Global ⌘K / Ctrl+K trigger - AppShell owns the open/closed state, so we
     // only dispatch a toggle event (avoiding a stale-closure double toggle).
     React.useEffect(() => {
         const onKey = (e: KeyboardEvent) => {

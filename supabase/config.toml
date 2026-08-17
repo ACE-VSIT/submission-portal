@@ -1,5 +1,5 @@
-# Supabase CLI configuration — required for edge-function development/deploy.
-project_id = "ace-vsit-portal"
+# Supabase CLI configuration - required for edge-function development/deploy.
+project_id = "ace-portal"
 
 [functions.upload-pdf]
 verify_jwt = true

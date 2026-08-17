@@ -48,7 +48,7 @@ export default function App() {
                 </Route>
             </Route>
 
-            {/* Admin dashboard — route guard + database-level RLS */}
+            {/* Admin dashboard - route guard + database-level RLS */}
             {/* Both admin and mentor can access; domain management is admin-only */}
             <Route element={<RequireAuth />}>
                 <Route element={<RequireStaff />}>

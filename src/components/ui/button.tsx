@@ -9,7 +9,7 @@ const buttonVariants = cva(
     {
         variants: {
             variant: {
-                // The single violet fill in the system — reserved for one primary action per view
+                // The single violet fill in the system - reserved for one primary action per view
                 default:
                     "bg-electric text-white hover:scale-[1.05] hover:shadow-dropdown hover:bg-electric/95 rounded-md",
                 secondary:

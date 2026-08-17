@@ -87,7 +87,7 @@ export function ProfileForm({ initial, onSaved, submitLabel = "Save profile" }: 
             <div className="space-y-1.5">
                 <Label htmlFor="pf-email">Email</Label>
                 <Input id="pf-email" value={initial?.email ?? ""} disabled readOnly />
-                <p className="text-muted-foreground text-xs">Assigned from your Google account — cannot be changed.</p>
+                <p className="text-muted-foreground text-xs">Assigned from your Google account - cannot be changed.</p>
             </div>
 
             <div className="grid gap-5 sm:grid-cols-2">

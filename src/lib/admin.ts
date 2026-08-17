@@ -29,7 +29,7 @@ export async function upsertInterviewRecord(record: {
  * Admin-only PDF viewer URL. The bytes stay private on Hugging Face; the
  * `view-pdf` edge function checks the caller's JWT + admin role server-side
  * before streaming them back. The token is embedded because the link opens in
- * a new tab (no Authorization header there) — it is the admin's own short-lived
+ * a new tab (no Authorization header there) - it is the admin's own short-lived
  * session token and the role check still happens on the server.
  */
 export function buildPdfViewUrl(path: string, token: string): string {

@@ -7,7 +7,7 @@ interface UseFetchResult<T> {
     refetch: () => void;
 }
 
-/** Minimal async-data hook with loading/error/refetch — consistent states everywhere. */
+/** Minimal async-data hook with loading/error/refetch - consistent states everywhere. */
 export function useFetch<T>(fn: () => Promise<T>, deps: React.DependencyList): UseFetchResult<T> {
     const [data, setData] = React.useState<T | null>(null);
     const [loading, setLoading] = React.useState(true);

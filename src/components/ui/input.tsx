@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Design.md §8 Forms: bordered input, radius-sm, explicit labels handled by
- * the consuming form — placeholder is never a substitute for a label.
+ * the consuming form - placeholder is never a substitute for a label.
  */
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
     ({ className, type, ...props }, ref) => {

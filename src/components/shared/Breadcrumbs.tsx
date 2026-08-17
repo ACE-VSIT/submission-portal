@@ -7,7 +7,7 @@ export interface Crumb {
 }
 
 /**
- * Design.md §8 Breadcrumbs — mono uppercase segments separated by a plain "/",
+ * Design.md §8 Breadcrumbs - mono uppercase segments separated by a plain "/",
  * current segment non-interactive in full contrast.
  */
 export function Breadcrumbs({ items }: { items: Crumb[] }) {

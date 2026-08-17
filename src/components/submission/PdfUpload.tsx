@@ -12,7 +12,7 @@ interface PdfUploadProps {
 }
 
 /**
- * PDF selection + validation + progress — never uploads directly from the
+ * PDF selection + validation + progress - never uploads directly from the
  * client; selection only, then the SubmissionPanel drives the proxy upload.
  */
 export function PdfUpload({ value, onChange, progress, disabled, error }: PdfUploadProps) {
@@ -28,7 +28,7 @@ export function PdfUpload({ value, onChange, progress, disabled, error }: PdfUpl
             return;
         }
         if (file.size > MAX_PDF_SIZE_MB * 1024 * 1024) {
-            setLocalError(`PDF is larger than ${MAX_PDF_SIZE_MB} MB — compress it and try again.`);
+            setLocalError(`PDF is larger than ${MAX_PDF_SIZE_MB} MB - compress it and try again.`);
             return;
         }
         onChange(file);

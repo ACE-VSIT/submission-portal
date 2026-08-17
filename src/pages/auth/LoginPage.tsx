@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { GraduationCap } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { isProfileComplete } from "@/components/auth/RequireProfile";
 import { Button } from "@/components/ui/button";

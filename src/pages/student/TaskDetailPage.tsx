@@ -161,13 +161,13 @@ export function TaskDetailPage() {
                             {(task.submission_type === "link" || task.submission_type === "pdf_link") && (
                                 <li className="text-muted-foreground flex items-start gap-2.5 text-sm">
                                     <Link2 className="text-electric mt-0.5 size-4 shrink-0" aria-hidden="true" />
-                                    One or more links — repository, prototype, demo, or live site.
+                                    One or more links - repository, prototype, demo, or live site.
                                 </li>
                             )}
                             <li className="text-muted-foreground flex items-start gap-2.5 text-sm">
                                 <Clock className="text-electric mt-0.5 size-4 shrink-0" aria-hidden="true" />
                                 {task.allows_resubmission
-                                    ? "You may resubmit — your latest submission counts."
+                                    ? "You may resubmit - your latest submission counts."
                                     : "Each task accepts a single submission."}
                             </li>
                         </ul>

@@ -24,10 +24,10 @@ import { cn } from "@/lib/utils";
  * Interview panel (ported from admintable-old Report):
  *   • lists every student shortlisted for at least one task, grouped by domain
  *     (a student appears once per selected domain)
- *   • per student × domain: interview done, selected for ACE, notes — persisted
+ *   • per student × domain: interview done, selected for ACE, notes - persisted
  *     in `interview_records`
  *   • domain filter + search
- *   • "Export to Excel" — replaced by a server-side CSV export through the
+ *   • "Export to Excel" - replaced by a server-side CSV export through the
  *     `export-interviews` edge function (same columns as before, plus state)
  */
 interface InterviewRow {
@@ -54,7 +54,7 @@ export function AdminInterviews() {
     const [notesTarget, setNotesTarget] = React.useState<InterviewRow | null>(null);
     const [notesDraft, setNotesDraft] = React.useState("");
     const [notesBusy, setNotesBusy] = React.useState(false);
-    // Submissions dialog — share state via a discriminated union
+    // Submissions dialog - share state via a discriminated union
     const [subsTarget, setSubsTarget] = React.useState<InterviewRow | null>(null);
     const [token, setToken] = React.useState("");
 
@@ -221,7 +221,7 @@ export function AdminInterviews() {
             <PageHeader
                 crumbs={[{ label: "Admin", to: "/admin" }, { label: "Interviews" }]}
                 title="Interview panel"
-                description="Students shortlisted for an interview — track interviews, final selection and notes."
+                description="Students shortlisted for an interview - track interviews, final selection and notes."
                 actions={
                     <>
                         <Link to="/admin/reviews">
@@ -286,7 +286,7 @@ export function AdminInterviews() {
                             icon={UsersRound}
                             eyebrow="No interviews"
                             title="Nobody shortlisted yet"
-                            description="Mark submissions as selected for interview in Reviews — they appear here grouped by domain."
+                            description="Mark submissions as selected for interview in Reviews - they appear here grouped by domain."
                             action={
                                 <Link to="/admin/reviews">
                                     <Button variant="secondary">Open Reviews</Button>
@@ -324,10 +324,10 @@ export function AdminInterviews() {
                                                 <div className="flex items-center gap-3">
                                                     <div>
                                                         <p className="text-foreground text-sm font-medium">
-                                                            {row.full_name || "—"}
+                                                            {row.full_name || "-"}
                                                         </p>
                                                         <p className="text-muted-foreground font-mono text-[0.625rem] tracking-[0.05em] uppercase">
-                                                            {row.course || "—"}
+                                                            {row.course || "-"}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -339,7 +339,7 @@ export function AdminInterviews() {
                                             </td>
                                             <td className="px-5 py-4 whitespace-nowrap">
                                                 <span className="text-muted-foreground text-sm">
-                                                    {row.phone || "—"}
+                                                    {row.phone || "-"}
                                                 </span>
                                             </td>
                                             <td className="px-5 py-4 whitespace-nowrap">

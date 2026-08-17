@@ -9,7 +9,7 @@ export interface PdfUploadResult {
 /**
  * Storage layer abstraction ("Student UI → Submission API → Storage Service →
  * Hugging Face", design.md §24). React components never talk to Hugging Face
- * directly and no credentials ever reach the browser — the upload is proxied
+ * directly and no credentials ever reach the browser - the upload is proxied
  * through the server-side Supabase Edge Function which holds HF_TOKEN/HF_REPO_ID.
  */
 export interface StorageService {

@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 /**
- * Status badge — mono uppercase label, optionally with a 6px status dot,
+ * Status badge - mono uppercase label, optionally with a 6px status dot,
  * mapping to the semantic state colors (design.md §3/§8). Color is never the
  * sole carrier of meaning; every badge pairs the dot with a text label.
  */

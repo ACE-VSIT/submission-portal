@@ -89,7 +89,7 @@ export function SubmissionPanel({ task, existing, onSuccess }: SubmissionPanelPr
                     </div>
                     <p className="text-muted-foreground max-w-md text-sm text-pretty">
                         Your work was recorded for <span className="text-foreground font-medium">{task.name}</span>. You
-                        can resubmit if the task allows it — your latest submission is the one on record.
+                        can resubmit if the task allows it - your latest submission is the one on record.
                     </p>
                     {lastSubmission.links.length > 0 && (
                         <ul className="mt-2 flex flex-wrap items-center justify-center gap-2">

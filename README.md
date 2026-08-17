@@ -1,18 +1,18 @@
-# ACE VSIT Submission Portal
+# ACE Submission Portal
 
-A polished, production-grade submission portal for **ACE VSIT**: students sign in with their Google account, complete a profile, pick a domain, work through tasks, and submit (PDF / links / both). Admins manage domains and tasks in a focused dashboard.
+A polished, production-grade submission portal for **ACE**: students sign in with their Google account, complete a profile, pick a domain, work through tasks, and submit (PDF / links / both). Admins manage domains and tasks in a focused dashboard.
 
-> Design source of truth: `DESIGN.md` — the VoidZero Console design system (bordered panels, monospace uppercase labels, single violet accent per screen, border-first depth, skeleton loading, restrained motion). All tokens are implemented in `src/index.css`.
+> Design source of truth: `DESIGN.md` - the VoidZero Console design system (bordered panels, monospace uppercase labels, single violet accent per screen, border-first depth, skeleton loading, restrained motion). All tokens are implemented in `src/index.css`.
 
 ---
 
 ## Stack
 
-- **React 19 + TypeScript + Vite 6** — strict typing, `@/` path alias
-- **Tailwind CSS v4** (`@tailwindcss/vite`) — design tokens via `@theme` in `src/index.css`
-- **shadcn/ui-style components** (Radix primitives) — adapted to the design system, not stock defaults: `button`, `input`, `textarea`, `label`, `select`, `switch`, `checkbox`, `badge`, `card`, `dialog`, `dropdown-menu`, `avatar`, `separator`, `skeleton`
-- **Supabase** — auth (Google OAuth), Postgres, Row Level Security
-- **Hugging Face** — private PDF storage, proxied server-side (never a client token)
+- **React 19 + TypeScript + Vite 6** - strict typing, `@/` path alias
+- **Tailwind CSS v4** (`@tailwindcss/vite`) - design tokens via `@theme` in `src/index.css`
+- **shadcn/ui-style components** (Radix primitives) - adapted to the design system, not stock defaults: `button`, `input`, `textarea`, `label`, `select`, `switch`, `checkbox`, `badge`, `card`, `dialog`, `dropdown-menu`, `avatar`, `separator`, `skeleton`
+- **Supabase** - auth (Google OAuth), Postgres, Row Level Security
+- **Hugging Face** - private PDF storage, proxied server-side (never a client token)
 
 ## Project layout
 
@@ -38,7 +38,7 @@ src/
 supabase/
   migrations/      0001_init.sql (schema + RLS), 0002_seed.sql (dev seed data)
   functions/
-    upload-pdf/    Edge Function — secure Hugging Face upload proxy
+    upload-pdf/    Edge Function - secure Hugging Face upload proxy
     _shared/cors.ts
 ```
 
@@ -54,7 +54,7 @@ supabase/
 - **Option A (CLI):** `supabase init` (link your project with `supabase link --project-ref <ref>`), then `supabase db push`.
 - **Option B (dashboard):** open **SQL Editor** and paste the contents of `supabase/migrations/0001_init.sql` (schema + RLS), then optionally `0002_seed.sql` (dev seed data).
 
-Optional seed: `select public.set_admin_role('your-email@college.edu');` — promote yourself to admin.
+Optional seed: `select public.set_admin_role('your-email@college.edu');` - promote yourself to admin.
 
 ### 3. Configure the environment
 
@@ -67,14 +67,14 @@ cp .env.example .env
 
 ### 4. Hugging Face private storage (server-side)
 
-1. Create a **private dataset** at <https://huggingface.co/new-dataset> (e.g. `ace-vsit/private-submissions`).
+1. Create a **private dataset** at <https://huggingface.co/new-dataset> (e.g. `ace/private-submissions`).
 2. Create a Hugging Face access token with **write** access to that repo.
-3. Deploy the proxy + set secrets — credentials never ship to the browser:
+3. Deploy the proxy + set secrets - credentials never ship to the browser:
 
 ```bash
 supabase functions deploy upload-pdf
 supabase secrets set HF_TOKEN=hf_xxx
-supabase secrets set HF_REPO_ID=ace-vsit/private-submissions
+supabase secrets set HF_REPO_ID=ace/private-submissions
 ```
 
 The client uploads through `POST /functions/v1/upload-pdf` with the Supabase JWT; the function verifies the caller, streams the PDF to the **private** dataset repo, and returns only a reference path that is stored in `submissions.pdf_reference`.
@@ -99,14 +99,14 @@ npm run build      # typecheck + production build
 | `submissions`       | select own, insert own, update own **failed** rows only; delete denied | full review (select/update `selected_for_interview` + `admin_notes`) |
 | `interview_records` | none                                                                   | full CRUD                                                            |
 
-Admin authorization is enforced by `public.is_admin()` (a `SECURITY DEFINER` function checking `profiles.role`), used in every policy. A student who bypasses the UI entirely still gets nothing — RLS rejects them at the database.
+Admin authorization is enforced by `public.is_admin()` (a `SECURITY DEFINER` function checking `profiles.role`), used in every policy. A student who bypasses the UI entirely still gets nothing - RLS rejects them at the database.
 
 ## Admin review & interview pipeline (ported from admintable-old)
 
-- `Reviews` (`/admin/reviews`) — every student with submissions, filters (search / domain / year / selection), per-task "selected for interview" checkbox + persistent admin notes, stat cells (students, submissions, top tasks).
-- `Interviews` (`/admin/interviews`) — students shortlisted for at least one task, grouped by domain, per student × domain interview-done / selected-for-ACE checkboxes and interview notes (stored in `interview_records`), plus a server-side CSV export (`export-interviews` edge function).
-- `view-pdf` edge function — admin-only proxy that streams privately stored PDFs (HF_TOKEN stays server-side).
-- Migration: `supabase/migrations/0004_admin_review.sql` — adds `submissions.selected_for_interview`, `submissions.admin_notes`, the `interview_records` table, and admin-only RLS + guards.
+- `Reviews` (`/admin/reviews`) - every student with submissions, filters (search / domain / year / selection), per-task "selected for interview" checkbox + persistent admin notes, stat cells (students, submissions, top tasks).
+- `Interviews` (`/admin/interviews`) - students shortlisted for at least one task, grouped by domain, per student × domain interview-done / selected-for-ACE checkboxes and interview notes (stored in `interview_records`), plus a server-side CSV export (`export-interviews` edge function).
+- `view-pdf` edge function - admin-only proxy that streams privately stored PDFs (HF_TOKEN stays server-side).
+- Migration: `supabase/migrations/0004_admin_review.sql` - adds `submissions.selected_for_interview`, `submissions.admin_notes`, the `interview_records` table, and admin-only RLS + guards.
 
 ## MVP checklist (PRD §32)
 

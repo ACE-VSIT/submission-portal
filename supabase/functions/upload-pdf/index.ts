@@ -9,14 +9,14 @@
 //
 // Deploy with the Supabase CLI:
 //   supabase functions deploy upload-pdf
-//   supabase secrets set HF_TOKEN=... HF_REPO_ID=ace-vsit/private-submissions
+//   supabase secrets set HF_TOKEN=... HF_REPO_ID=ace/private-submissions
 // ────────────────────────────────────────────────────────────────────────────
 
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import { corsHeaders } from "../_shared/cors.ts";
 
 const HF_TOKEN = Deno.env.get("HF_TOKEN");
-const HF_REPO_ID = Deno.env.get("HF_REPO_ID") ?? "ace-vsit/private-submissions";
+const HF_REPO_ID = Deno.env.get("HF_REPO_ID");
 const HF_BASE = `https://huggingface.co/api/datasets/${HF_REPO_ID}`;
 const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
 
@@ -33,7 +33,7 @@ Deno.serve(async (req: Request) => {
         return json({ error: "Storage is not configured. Please contact support." }, 500);
     }
 
-    // 1. Verify the caller — the JWT is attached to supabase.functions.invoke()
+    // 1. Verify the caller - the JWT is attached to supabase.functions.invoke()
     //    automatically by supabase-js; verify it server-side, never trust the client.
     const authHeader = req.headers.get("Authorization") ?? "";
     const jwt = authHeader.replace(/^Bearer\s+/i, "");
@@ -109,7 +109,7 @@ Deno.serve(async (req: Request) => {
         return json({ error: "Upload failed on the storage service. Please try again." }, 502);
     }
 
-    // 5. Return only the safe reference — credentials never leave the server,
+    // 5. Return only the safe reference - credentials never leave the server,
     //    and only the path is persisted in Supabase.
     return json({
         path,

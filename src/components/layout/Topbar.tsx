@@ -1,8 +1,7 @@
 import { Menu, Search, Sun, Moon } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { labelForPath } from "./navigation";
 import { useTheme } from "@/context/ThemeContext";
-import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 
 interface TopbarProps {
@@ -35,7 +34,7 @@ export function Topbar({ onOpenMobileNav, onOpenPalette, onToggleCollapse }: Top
             </button>
 
             <div className="flex min-w-0 items-center gap-2">
-                <span className="text-muted-foreground font-mono text-[0.6875rem] font-medium tracking-[0.05em] uppercase">
+                <span className="text-muted-foreground font-mono text-[0.6875rem] font-medium tracking-wider uppercase">
                     ace
                 </span>
                 <span className="text-muted-foreground/40" aria-hidden="true">

@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Bordered panel — the system's only in-flow container. No resting shadows,
+ * Bordered panel - the system's only in-flow container. No resting shadows,
  * no large radii, no floating-card aesthetic (design.md §4/§5/§6).
  */
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (

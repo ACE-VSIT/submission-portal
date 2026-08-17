@@ -80,5 +80,5 @@ export function labelForPath(pathname: string): string {
         if (pathname.startsWith("/app/profile")) return "My Profile";
         return "Student";
     }
-    return "ACE VSIT";
+    return "ACE";
 }

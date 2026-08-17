@@ -3,7 +3,7 @@
 //
 // Submissions are stored privately on Hugging Face (see upload-pdf); there is
 // no public URL. This function verifies the caller's Supabase JWT, checks the
-// admin role, then streams the PDF bytes back with HF_TOKEN held server-side —
+// admin role, then streams the PDF bytes back with HF_TOKEN held server-side -
 // so admins get a working "View PDF" link without any credential reaching the
 // browser or a public storage bucket.
 //
@@ -14,7 +14,7 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
 import { corsHeaders } from "../_shared/cors.ts";
 
 const HF_TOKEN = Deno.env.get("HF_TOKEN");
-const HF_REPO_ID = Deno.env.get("HF_REPO_ID") ?? "ace-vsit/private-submissions";
+const HF_REPO_ID = Deno.env.get("HF_REPO_ID");
 
 // Stored paths look like: <userId>/<taskId>/<fileStem>-<uuid>.pdf
 const SAFE_PATH = /^[a-zA-Z0-9._\-\/]+$/;
@@ -51,7 +51,7 @@ Deno.serve(async (req: Request) => {
         return json({ error: "Your session is invalid or expired. Please sign in again." }, 401);
     }
 
-    // 2. Admin or Mentor — the review tools are staff surfaces.
+    // 2. Admin or Mentor - the review tools are staff surfaces.
     const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
     if (profile?.role !== "admin" && profile?.role !== "mentor") return json({ error: "Staff access required." }, 403);
 

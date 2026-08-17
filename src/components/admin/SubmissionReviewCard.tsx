@@ -17,7 +17,7 @@ interface SubmissionReviewCardProps {
 }
 
 /**
- * One submission rendered for admin review — the equivalent of the old
+ * One submission rendered for admin review - the equivalent of the old
  * Dashboard/Report "User Submissions" cards, restyled in the portal's design
  * system (bordered mini-panel, mono metadata, semantic badges).
  */

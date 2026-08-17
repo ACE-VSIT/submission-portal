@@ -59,7 +59,7 @@ export function ProfilePage() {
                             </div>
                             <div className="min-w-0">
                                 <p className="text-foreground truncate text-sm font-medium">
-                                    {profile.full_name || "—"}
+                                    {profile.full_name || "-"}
                                 </p>
                                 <p className="text-muted-foreground truncate text-xs">{profile.email}</p>
                             </div>
@@ -87,13 +87,13 @@ export function ProfilePage() {
                                 <dt className="text-muted-foreground font-mono text-[0.625rem] tracking-[0.05em] uppercase">
                                     Phone
                                 </dt>
-                                <dd className="text-foreground mt-0.5 text-sm">{profile.phone || "—"}</dd>
+                                <dd className="text-foreground mt-0.5 text-sm">{profile.phone || "-"}</dd>
                             </div>
                             <div>
                                 <dt className="text-muted-foreground font-mono text-[0.625rem] tracking-[0.05em] uppercase">
                                     Course
                                 </dt>
-                                <dd className="text-foreground mt-0.5 text-sm">{profile.course || "—"}</dd>
+                                <dd className="text-foreground mt-0.5 text-sm">{profile.course || "-"}</dd>
                             </div>
                         </dl>
                     </div>

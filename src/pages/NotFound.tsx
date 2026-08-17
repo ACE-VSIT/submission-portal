@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { SearchX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-/** Design.md §17 404 — chrome-free, centered message, single back action. */
+/** Design.md §17 404 - chrome-free, centered message, single back action. */
 export function NotFoundPage() {
     return (
         <div className="bg-background flex min-h-dvh items-center justify-center px-4">

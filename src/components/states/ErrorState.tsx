@@ -9,7 +9,7 @@ interface ErrorStateProps {
     compact?: boolean;
 }
 
-/** Design.md §8: in-flow error — inline banner style, keeps chrome visible. */
+/** Design.md §8: in-flow error - inline banner style, keeps chrome visible. */
 export function ErrorState({ title = "Something went wrong", message, onRetry, compact }: ErrorStateProps) {
     return (
         <div

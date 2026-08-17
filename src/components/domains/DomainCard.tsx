@@ -7,7 +7,7 @@ interface DomainCardProps {
     taskCount: number;
 }
 
-/** Bordered panel card — the domain explorer's navigation unit (design.md §8). */
+/** Bordered panel card - the domain explorer's navigation unit (design.md §8). */
 export function DomainCard({ domain, taskCount }: DomainCardProps) {
     return (
         <Link

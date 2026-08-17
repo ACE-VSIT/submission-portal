@@ -22,11 +22,11 @@ import { cn } from "@/lib/utils";
 /**
  * Review pipeline (ported from admintable-old Dashboard):
  *   • every student with a completed profile and at least one submission
- *   • filters — search (name / email / phone / course), domain, submission
+ *   • filters - search (name / email / phone / course), domain, submission
  *     year, selection status
  *   • per-submission: view/download links, "Selected for interview" checkbox,
  *     persistent private admin notes
- *   • stat cells — total students, total submissions, top submitted tasks
+ *   • stat cells - total students, total submissions, top submitted tasks
  */
 export function AdminReviews() {
     const { data, loading, error, refetch } = useAdminReviewData();
@@ -152,7 +152,7 @@ export function AdminReviews() {
             <PageHeader
                 crumbs={[{ label: "Admin", to: "/admin" }, { label: "Reviews" }]}
                 title="Reviews"
-                description="All students with submissions — shortlist tasks for interview and leave private notes."
+                description="All students with submissions - shortlist tasks for interview and leave private notes."
                 actions={
                     <Link to="/admin/interviews">
                         <Button variant="secondary">
@@ -294,7 +294,7 @@ export function AdminReviews() {
                                                 >
                                                     <td className="px-5 py-4 pl-6 whitespace-nowrap">
                                                         <p className="text-foreground text-sm font-medium">
-                                                            {p.full_name || "—"}
+                                                            {p.full_name || "-"}
                                                         </p>
                                                     </td>
                                                     <td className="px-5 py-4 whitespace-nowrap">
@@ -304,11 +304,11 @@ export function AdminReviews() {
                                                     </td>
                                                     <td className="px-5 py-4 whitespace-nowrap">
                                                         <span className="text-muted-foreground text-sm">
-                                                            {p.phone || "—"}
+                                                            {p.phone || "-"}
                                                         </span>
                                                     </td>
                                                     <td className="px-5 py-4 whitespace-nowrap">
-                                                        <Badge variant="neutral">{p.course || "—"}</Badge>
+                                                        <Badge variant="neutral">{p.course || "-"}</Badge>
                                                     </td>
                                                     <td className="px-5 py-4 whitespace-nowrap">
                                                         <span className="text-foreground font-mono text-sm">
@@ -347,7 +347,7 @@ export function AdminReviews() {
                     <DialogHeader>
                         <DialogTitle>{dialog?.title ?? ""}</DialogTitle>
                         <DialogDescription id="review-dialog-desc">
-                            {dialog?.email} — mark tasks to shortlist this student for an interview.
+                            {dialog?.email} - mark tasks to shortlist this student for an interview.
                         </DialogDescription>
                     </DialogHeader>
                     {dialog && (

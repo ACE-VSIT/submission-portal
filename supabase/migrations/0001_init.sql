@@ -1,5 +1,5 @@
 -- ────────────────────────────────────────────────────────────────────────────
--- ACE VSIT Submission Portal — schema + Row Level Security
+-- ACE Submission Portal - schema + Row Level Security
 -- Run with the Supabase CLI:  supabase db push
 -- (or paste into Supabase Dashboard → SQL Editor)
 -- ────────────────────────────────────────────────────────────────────────────
@@ -104,7 +104,7 @@ create trigger domains_updated_at   before update on public.domains     for each
 create trigger tasks_updated_at     before update on public.tasks       for each row execute function public.set_updated_at();
 create trigger submissions_updated_at before update on public.submissions for each row execute function public.set_updated_at();
 
--- ── admin helper (SECURITY DEFINER — the ONLY way role checks happen) ──────
+-- ── admin helper (SECURITY DEFINER - the ONLY way role checks happen) ──────
 create or replace function public.is_admin()
 returns boolean language sql security definer set search_path = public as $$
   select exists (
@@ -114,7 +114,7 @@ returns boolean language sql security definer set search_path = public as $$
 $$;
 
 -- ────────────────────────────────────────────────────────────────────────────
--- Row Level Security — the database is the security boundary. A student who
+-- Row Level Security - the database is the security boundary. A student who
 -- bypasses the UI entirely still cannot read/write anything they don't own,
 -- and can never touch admin operations.
 -- ────────────────────────────────────────────────────────────────────────────

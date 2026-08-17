@@ -3,9 +3,9 @@ import { DIFFICULTY_META, difficultyLabel } from "@/lib/difficulty";
 import type { Difficulty } from "@/lib/types";
 
 /**
- * Difficulty is communicated through a distinct visual treatment per level —
+ * Difficulty is communicated through a distinct visual treatment per level -
  * never violet (reserved for workflow/info), using the semantic state tier
- * plus neutral — always paired with the text label, never color alone.
+ * plus neutral - always paired with the text label, never color alone.
  */
 export function DifficultyBadge({ difficulty, className }: { difficulty: Difficulty; className?: string }) {
     const meta = DIFFICULTY_META[difficulty];

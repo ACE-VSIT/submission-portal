@@ -3,7 +3,7 @@ import * as React from "react";
 type Theme = "light" | "dark";
 
 const ThemeContext = React.createContext<{ theme: Theme; toggleTheme: () => void } | null>(null);
-const STORAGE_KEY = "ace-vsit-theme";
+const STORAGE_KEY = "ace-theme";
 
 function applyTheme(theme: Theme) {
     const root = document.documentElement;

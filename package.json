@@ -1,5 +1,5 @@
 {
-    "name": "ace-vsit-submission-portal",
+    "name": "ace-submission-portal",
     "private": true,
     "version": "1.0.0",
     "type": "module",
@@ -40,6 +40,7 @@
         "@vitejs/plugin-react": "^4.3.4",
         "prettier": "^3.9.6",
         "prettier-plugin-tailwindcss": "^0.8.1",
+        "supabase": "^2.114.0",
         "tailwindcss": "^4.0.0",
         "typescript": "~5.7.2",
         "vite": "^6.0.5"

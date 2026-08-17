@@ -8,7 +8,7 @@ export function AppShell() {
     const location = useLocation();
     const [collapsed, setCollapsed] = React.useState(() => {
         try {
-            return window.localStorage.getItem("ace-vsit-sidebar") === "1";
+            return window.localStorage.getItem("ace-sidebar") === "1";
         } catch {
             return false;
         }
@@ -18,7 +18,7 @@ export function AppShell() {
 
     React.useEffect(() => {
         try {
-            window.localStorage.setItem("ace-vsit-sidebar", collapsed ? "1" : "0");
+            window.localStorage.setItem("ace-sidebar", collapsed ? "1" : "0");
         } catch {
             /* ignore */
         }

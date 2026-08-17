@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-/** Session-resolution loader — never flashes protected content before auth resolves. */
+/** Session-resolution loader - never flashes protected content before auth resolves. */
 export function FullPageLoader() {
     return (
         <div className="flex min-h-dvh flex-col" role="status" aria-label="Loading application">
