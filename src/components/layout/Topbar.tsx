@@ -1,17 +1,8 @@
-import { Menu, Search, Sun, Moon, ChevronDown } from "lucide-react";
+import { Menu, Search, Sun, Moon } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { labelForPath } from "./navigation";
 import { useTheme } from "@/context/ThemeContext";
 import { useAuth } from "@/context/AuthContext";
-import { Badge } from "@/components/ui/badge";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
 interface TopbarProps {
@@ -22,16 +13,9 @@ interface TopbarProps {
 
 export function Topbar({ onOpenMobileNav, onOpenPalette, onToggleCollapse }: TopbarProps) {
     const location = useLocation();
-    const navigate = useNavigate();
     const { theme, toggleTheme } = useTheme();
-    const { profile, role, signOut } = useAuth();
 
     const title = labelForPath(location.pathname);
-
-    const handleSignOut = async () => {
-        await signOut();
-        navigate("/login");
-    };
 
     return (
         <header className="border-border bg-card sticky top-0 z-40 flex h-14 shrink-0 items-center gap-2 border-b px-3 sm:px-4">
@@ -52,7 +36,7 @@ export function Topbar({ onOpenMobileNav, onOpenPalette, onToggleCollapse }: Top
 
             <div className="flex min-w-0 items-center gap-2">
                 <span className="text-muted-foreground font-mono text-[0.6875rem] font-medium tracking-[0.05em] uppercase">
-                    ace / vsit
+                    ace
                 </span>
                 <span className="text-muted-foreground/40" aria-hidden="true">
                     /
@@ -85,43 +69,6 @@ export function Topbar({ onOpenMobileNav, onOpenPalette, onToggleCollapse }: Top
                         <Moon className="size-4" aria-hidden="true" />
                     )}
                 </Button>
-
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <button
-                            className="hover:bg-secondary hover:text-secondary-foreground focus-visible:ring-electric flex h-8 items-center gap-1.5 rounded-sm px-1.5 transition-colors focus-visible:ring-2 focus-visible:outline-none"
-                            aria-label="Account menu"
-                        >
-                            <span className="bg-secondary text-secondary-foreground flex size-7 items-center justify-center rounded-full text-[0.625rem] font-medium">
-                                {profile?.full_name?.slice(0, 2).toUpperCase() ?? "AC"}
-                            </span>
-                            <ChevronDown className="text-muted-foreground size-3.5" aria-hidden="true" />
-                        </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-60">
-                        <DropdownMenuLabel className="flex flex-col gap-0.5">
-                            <span className="text-muted-foreground font-mono text-[0.625rem] tracking-[0.05em] normal-case uppercase">
-                                Signed in as
-                            </span>
-                            <span className="text-foreground truncate font-sans text-sm font-medium normal-case">
-                                {profile?.full_name ?? profile?.email ?? "—"}
-                            </span>
-                            <span className="text-muted-foreground truncate font-mono text-[0.625rem] normal-case">
-                                {profile?.email}
-                            </span>
-                        </DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <div className="px-2 py-1.5">
-                            <Badge variant={role === "admin" ? "primary" : role === "mentor" ? "warning" : "neutral"}>
-                                {role === "admin" ? "Admin" : role === "mentor" ? "Mentor" : "Student"}
-                            </Badge>
-                        </div>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onSelect={handleSignOut} destructive>
-                            Sign out
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
             </div>
         </header>
     );
