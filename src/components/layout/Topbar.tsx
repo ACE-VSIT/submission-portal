@@ -112,8 +112,8 @@ export function Topbar({ onOpenMobileNav, onOpenPalette, onToggleCollapse }: Top
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <div className="px-2 py-1.5">
-                            <Badge variant={role === "admin" ? "primary" : "neutral"}>
-                                {role === "admin" ? "Admin" : "Student"}
+                            <Badge variant={role === "admin" ? "primary" : role === "mentor" ? "warning" : "neutral"}>
+                                {role === "admin" ? "Admin" : role === "mentor" ? "Mentor" : "Student"}
                             </Badge>
                         </div>
                         <DropdownMenuSeparator />

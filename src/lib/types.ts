@@ -1,4 +1,4 @@
-export type Role = "student" | "admin";
+export type Role = "student" | "admin" | "mentor";
 export type Difficulty = "easy" | "medium" | "hard" | "extreme";
 export type SubmissionType = "pdf" | "link" | "pdf_link";
 

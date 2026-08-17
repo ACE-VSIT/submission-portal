@@ -65,10 +65,18 @@ export function ProfilePage() {
                             </div>
                         </div>
                         <div className="mt-4 flex items-center gap-2">
-                            <Badge variant={profile.role === "admin" ? "primary" : "neutral"}>
-                                {profile.role === "admin" ? "Admin" : "Student"}
+                            <Badge
+                                variant={
+                                    profile.role === "admin"
+                                        ? "primary"
+                                        : profile.role === "mentor"
+                                          ? "warning"
+                                          : "neutral"
+                                }
+                            >
+                                {profile.role === "admin" ? "Admin" : profile.role === "mentor" ? "Mentor" : "Student"}
                             </Badge>
-                            {profile.role === "admin" && (
+                            {(profile.role === "admin" || profile.role === "mentor") && (
                                 <span className="text-muted-foreground inline-flex items-center gap-1 font-mono text-[0.625rem] tracking-[0.05em] uppercase">
                                     <ShieldCheck className="size-3.5" aria-hidden="true" /> Elevated access
                                 </span>

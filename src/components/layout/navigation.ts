@@ -1,6 +1,6 @@
 import type { NavSection } from "@/lib/types";
 import type { LucideIcon } from "lucide-react";
-import { LayoutDashboard, Layers, User, ShieldCheck, ClipboardCheck, UsersRound } from "lucide-react";
+import { LayoutDashboard, Layers, User, ShieldCheck, ClipboardCheck, UsersRound, Eye } from "lucide-react";
 
 export const studentNav: NavSection[] = [
     {
@@ -24,6 +24,17 @@ export const adminNav: NavSection[] = [
     },
 ];
 
+export const mentorNav: NavSection[] = [
+    {
+        label: "Mentor",
+        items: [
+            { label: "Overview", to: "/admin", icon: "dashboard", end: true },
+            { label: "Reviews", to: "/admin/reviews", icon: "clipboard" },
+            { label: "Interviews", to: "/admin/interviews", icon: "users" },
+        ],
+    },
+];
+
 export const iconMap: Record<string, LucideIcon> = {
     dashboard: LayoutDashboard,
     layers: Layers,
@@ -31,6 +42,7 @@ export const iconMap: Record<string, LucideIcon> = {
     shield: ShieldCheck,
     clipboard: ClipboardCheck,
     users: UsersRound,
+    eye: Eye,
 };
 
 export function labelForPath(pathname: string): string {

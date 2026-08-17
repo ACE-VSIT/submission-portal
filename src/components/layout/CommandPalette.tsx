@@ -27,6 +27,12 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
                 { label: "Review submissions", to: "/admin/reviews", group: "Admin", icon: ClipboardCheck },
                 { label: "Interview panel", to: "/admin/interviews", group: "Admin", icon: UsersRound }
             );
+        } else if (role === "mentor") {
+            base.push(
+                { label: "Mentor overview", to: "/admin", group: "Mentor", icon: LayoutDashboard },
+                { label: "Review submissions", to: "/admin/reviews", group: "Mentor", icon: ClipboardCheck },
+                { label: "Interview panel", to: "/admin/interviews", group: "Mentor", icon: UsersRound }
+            );
         }
         base.push(
             { label: "Browse domains", to: "/app/domains", group: "Student", icon: Layers },

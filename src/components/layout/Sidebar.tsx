@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GraduationCap, LogOut, X } from "lucide-react";
-import { iconMap, studentNav, adminNav } from "./navigation";
+import { iconMap, studentNav, adminNav, mentorNav } from "./navigation";
 import type { NavSection } from "@/lib/types";
 import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
@@ -62,7 +62,7 @@ function NavSectionBlock({
 export function Sidebar({ collapsed, mobileOpen, onMobileClose }: SidebarProps) {
     const { role, profile, signOut } = useAuth();
     const navigate = useNavigate();
-    const nav = role === "admin" ? adminNav : studentNav;
+    const nav = role === "admin" ? adminNav : role === "mentor" ? mentorNav : studentNav;
 
     const handleSignOut = async () => {
         await signOut();
@@ -101,7 +101,7 @@ export function Sidebar({ collapsed, mobileOpen, onMobileClose }: SidebarProps) 
             </div>
 
             <div className="border-border shrink-0 border-t p-3">
-                {role === "admin" && (
+                {(role === "admin" || role === "mentor") && (
                     <Link
                         to="/app/domains"
                         onClick={onMobileClose}
