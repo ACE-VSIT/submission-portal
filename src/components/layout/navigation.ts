@@ -1,12 +1,23 @@
 import type { NavSection } from "@/lib/types";
 import type { LucideIcon } from "lucide-react";
-import { LayoutDashboard, Layers, User, ShieldCheck, ClipboardCheck, UsersRound, Eye } from "lucide-react";
+import {
+    LayoutDashboard,
+    Layers,
+    User,
+    ShieldCheck,
+    ClipboardCheck,
+    UsersRound,
+    Eye,
+    GraduationCap,
+    Send,
+} from "lucide-react";
 
 export const studentNav: NavSection[] = [
     {
         label: "Student",
         items: [
             { label: "Domains", to: "/app/domains", icon: "layers", end: true },
+            { label: "Submissions", to: "/app/submissions", icon: "send" },
             { label: "My Profile", to: "/app/profile", icon: "user" },
         ],
     },
@@ -22,6 +33,10 @@ export const adminNav: NavSection[] = [
             { label: "Interviews", to: "/admin/interviews", icon: "users" },
         ],
     },
+    {
+        label: "Student Portal",
+        items: [{ label: "Student Portal", to: "/app/domains", icon: "graduation" }],
+    },
 ];
 
 export const mentorNav: NavSection[] = [
@@ -33,6 +48,10 @@ export const mentorNav: NavSection[] = [
             { label: "Interviews", to: "/admin/interviews", icon: "users" },
         ],
     },
+    {
+        label: "Student Portal",
+        items: [{ label: "Student Portal", to: "/app/domains", icon: "graduation" }],
+    },
 ];
 
 export const iconMap: Record<string, LucideIcon> = {
@@ -43,6 +62,8 @@ export const iconMap: Record<string, LucideIcon> = {
     clipboard: ClipboardCheck,
     users: UsersRound,
     eye: Eye,
+    graduation: GraduationCap,
+    send: Send,
 };
 
 export function labelForPath(pathname: string): string {
@@ -55,6 +76,7 @@ export function labelForPath(pathname: string): string {
     }
     if (pathname.startsWith("/app")) {
         if (pathname.startsWith("/app/domains")) return "Domains";
+        if (pathname.startsWith("/app/submissions")) return "My Submissions";
         if (pathname.startsWith("/app/profile")) return "My Profile";
         return "Student";
     }

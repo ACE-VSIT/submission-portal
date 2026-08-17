@@ -1,6 +1,16 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, CornerDownLeft, Layers, User, LayoutDashboard, ClipboardCheck, UsersRound } from "lucide-react";
+import {
+    Search,
+    CornerDownLeft,
+    Layers,
+    User,
+    LayoutDashboard,
+    ClipboardCheck,
+    UsersRound,
+    GraduationCap,
+    Send,
+} from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
 
@@ -25,17 +35,20 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
                 { label: "Admin overview", to: "/admin", group: "Admin", icon: LayoutDashboard },
                 { label: "Manage domains", to: "/admin/domains", group: "Admin", icon: Layers },
                 { label: "Review submissions", to: "/admin/reviews", group: "Admin", icon: ClipboardCheck },
-                { label: "Interview panel", to: "/admin/interviews", group: "Admin", icon: UsersRound }
+                { label: "Interview panel", to: "/admin/interviews", group: "Admin", icon: UsersRound },
+                { label: "Browse student portal", to: "/app/domains", group: "Student Portal", icon: GraduationCap }
             );
         } else if (role === "mentor") {
             base.push(
                 { label: "Mentor overview", to: "/admin", group: "Mentor", icon: LayoutDashboard },
                 { label: "Review submissions", to: "/admin/reviews", group: "Mentor", icon: ClipboardCheck },
-                { label: "Interview panel", to: "/admin/interviews", group: "Mentor", icon: UsersRound }
+                { label: "Interview panel", to: "/admin/interviews", group: "Mentor", icon: UsersRound },
+                { label: "Browse student portal", to: "/app/domains", group: "Student Portal", icon: GraduationCap }
             );
         }
         base.push(
             { label: "Browse domains", to: "/app/domains", group: "Student", icon: Layers },
+            { label: "My submissions", to: "/app/submissions", group: "Student", icon: Send },
             { label: "My profile", to: "/app/profile", group: "Student", icon: User }
         );
         return base;

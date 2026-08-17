@@ -4,6 +4,7 @@ import { iconMap, studentNav, adminNav, mentorNav } from "./navigation";
 import type { NavSection } from "@/lib/types";
 import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 interface SidebarProps {
     collapsed: boolean;
@@ -60,7 +61,7 @@ function NavSectionBlock({
 }
 
 export function Sidebar({ collapsed, mobileOpen, onMobileClose }: SidebarProps) {
-    const { role, profile, signOut } = useAuth();
+    const { session, role, profile, signOut } = useAuth();
     const navigate = useNavigate();
     const nav = role === "admin" ? adminNav : role === "mentor" ? mentorNav : studentNav;
 
@@ -73,13 +74,11 @@ export function Sidebar({ collapsed, mobileOpen, onMobileClose }: SidebarProps) 
         <div className="flex h-full flex-col">
             <div className="border-border flex h-14 shrink-0 items-center gap-2.5 border-b px-4">
                 <div className="bg-electric flex size-7 shrink-0 items-center justify-center rounded-sm">
-                    <GraduationCap className="size-4 text-white" aria-hidden="true" />
+                    <img src="/logo.svg" className="size-4 invert" aria-hidden="true" />
                 </div>
                 {!collapsed && (
                     <div className="min-w-0">
-                        <p className="font-heading text-foreground truncate text-sm leading-tight font-medium">
-                            ACE VSIT
-                        </p>
+                        <p className="font-heading text-foreground truncate text-sm leading-tight font-medium">ACE</p>
                         <p className="text-muted-foreground truncate font-mono text-[0.625rem] tracking-[0.08em] uppercase">
                             Submission portal
                         </p>
@@ -101,43 +100,31 @@ export function Sidebar({ collapsed, mobileOpen, onMobileClose }: SidebarProps) 
             </div>
 
             <div className="border-border shrink-0 border-t p-3">
-                {(role === "admin" || role === "mentor") && (
-                    <Link
-                        to="/app/domains"
-                        onClick={onMobileClose}
-                        className="text-muted-foreground hover:bg-secondary hover:text-secondary-foreground mb-1 flex h-8 items-center gap-2 rounded-sm px-3 text-sm transition-colors"
-                    >
-                        {!collapsed ? (
-                            <span className="font-mono text-[0.6875rem] font-medium tracking-[0.05em] uppercase">
-                                Student portal →
-                            </span>
-                        ) : (
-                            <GraduationCap className="size-4" aria-hidden="true" />
-                        )}
-                    </Link>
-                )}
-                <div className="flex items-center gap-2 rounded-sm px-3 py-2">
-                    <div className="bg-secondary text-secondary-foreground flex size-7 shrink-0 items-center justify-center rounded-full text-[0.625rem] font-medium">
-                        {profile?.full_name?.slice(0, 2).toUpperCase() ?? "AC"}
-                    </div>
+                <div className="flex items-center gap-2 rounded-sm px-1 py-2">
+                    <Avatar className="size-8">
+                        <AvatarImage src={session?.user.user_metadata?.avatar_url} alt={profile?.full_name ?? "User"} />
+                        <AvatarFallback>{profile?.full_name?.slice(0, 2).toUpperCase() ?? "AC"}</AvatarFallback>
+                    </Avatar>
                     {!collapsed && (
-                        <div className="min-w-0 flex-1">
-                            <p className="text-foreground truncate text-sm font-medium">
-                                {profile?.full_name ?? "Account"}
-                            </p>
-                            <p className="text-muted-foreground truncate font-mono text-[0.625rem] tracking-[0.06em] uppercase">
-                                {role ?? "student"}
-                            </p>
-                        </div>
+                        <>
+                            <div className="min-w-0 flex-1">
+                                <p className="text-foreground truncate text-sm font-medium">
+                                    {profile?.full_name ?? "Account"}
+                                </p>
+                                <p className="text-muted-foreground truncate font-mono text-[0.625rem] tracking-[0.06em] uppercase">
+                                    {role ?? "student"}
+                                </p>
+                            </div>
+                            <button
+                                onClick={handleSignOut}
+                                className="text-muted-foreground hover:bg-error/10 hover:text-error focus-visible:ring-error rounded-sm p-1.5 transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                                aria-label="Sign out"
+                                title="Sign out"
+                            >
+                                <LogOut className="size-4" aria-hidden="true" />
+                            </button>
+                        </>
                     )}
-                    <button
-                        onClick={handleSignOut}
-                        className="text-muted-foreground hover:bg-error/10 hover:text-error focus-visible:ring-error rounded-sm p-1.5 transition-colors focus-visible:ring-2 focus-visible:outline-none"
-                        aria-label="Sign out"
-                        title="Sign out"
-                    >
-                        <LogOut className="size-4" aria-hidden="true" />
-                    </button>
                 </div>
             </div>
         </div>
@@ -146,7 +133,7 @@ export function Sidebar({ collapsed, mobileOpen, onMobileClose }: SidebarProps) 
     return (
         <>
             {mobileOpen && (
-                <div className="fixed inset-0 z-[100] md:hidden" role="dialog" aria-modal="true">
+                <div className="fixed inset-0 z-100 md:hidden" role="dialog" aria-modal="true">
                     <div className="bg-midnight/60 absolute inset-0" onClick={onMobileClose} aria-hidden="true" />
                     <aside className="border-border bg-card shadow-modal absolute inset-y-0 left-0 w-64 border-r">
                         {body}

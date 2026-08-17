@@ -77,44 +77,31 @@ export function LoginPage() {
             <div className="animate-fade-in w-full max-w-md">
                 <div className="mb-8 flex flex-col items-center gap-3 text-center">
                     <div className="bg-electric flex size-11 items-center justify-center rounded-sm">
-                        <GraduationCap className="size-6 text-white" aria-hidden="true" />
+                        <img src="/logo.svg" className="size-6 invert" aria-hidden="true" />
                     </div>
-                    <p className="eyebrow">ACE VSIT — Submission portal</p>
                     <h1 className="font-heading text-foreground text-2xl leading-snug font-medium tracking-tight text-balance sm:text-3xl">
-                        Sign in to your portal
+                        ACE Submission Portal
                     </h1>
-                    <p className="text-muted-foreground max-w-sm text-sm text-pretty">
-                        Use your college Google account to register, pick a domain, and submit your work.
-                    </p>
                 </div>
 
-                <div className="panel p-6">
-                    {error && (
-                        <div
-                            role="alert"
-                            className="border-error/30 bg-error/5 text-error mb-4 rounded-sm border px-3 py-2.5 text-sm"
-                        >
-                            {error}
-                        </div>
-                    )}
-                    <Button
-                        className="w-full"
-                        size="lg"
-                        loading={busy}
-                        onClick={handleSignIn}
-                        aria-label="Sign in with Google"
+                {error && (
+                    <div
+                        role="alert"
+                        className="border-error/30 bg-error/5 text-error mb-4 rounded-sm border px-3 py-2.5 text-sm"
                     >
-                        <GoogleG className="size-4" />
-                        Continue with Google
-                    </Button>
-                    <p className="text-muted-foreground mt-4 text-center font-mono text-[0.625rem] tracking-[0.05em] uppercase">
-                        Students &amp; admins sign in here
-                    </p>
-                </div>
-
-                <p className="text-muted-foreground mt-6 text-center text-xs">
-                    By signing in you agree to the ACE VSIT submission guidelines.
-                </p>
+                        {error}
+                    </div>
+                )}
+                <Button
+                    className="w-full"
+                    size="lg"
+                    loading={busy}
+                    onClick={handleSignIn}
+                    aria-label="Sign in with Google"
+                >
+                    <GoogleG className="size-4" />
+                    Continue with Google
+                </Button>
             </div>
         </div>
     );
