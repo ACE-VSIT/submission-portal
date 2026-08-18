@@ -20,6 +20,8 @@ import { AdminReviews } from "@/pages/admin/AdminReviews";
 import { AdminInterviews } from "@/pages/admin/AdminInterviews";
 import { AdminUsers } from "@/pages/admin/AdminUsers";
 import { NotFoundPage } from "@/pages/NotFound";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function RootRedirect() {
     const { session, profile, loading } = useAuth();
@@ -33,45 +35,46 @@ function RootRedirect() {
 
 export default function App() {
     return (
-        <Routes>
-            <Route path="/" element={<RootRedirect />} />
-            <Route path="/login" element={<LoginPage />} />
+        <>
+            <Analytics />
+            <SpeedInsights />
+            <Routes>
+                <Route path="/" element={<RootRedirect />} />
+                <Route path="/login" element={<LoginPage />} />
 
-            {/* Authenticated student portal */}
-            <Route element={<RequireAuth />}>
-                <Route path="/app" element={<AppShell />}>
-                    <Route index element={<Navigate to="/app/domains" replace />} />
-                    <Route path="profile" element={<ProfilePage />} />
-                    <Route element={<RequireProfile />}>
-                        <Route path="domains" element={<DomainsPage />} />
-                        <Route path="domains/:domainId" element={<DomainTasksPage />} />
-                        <Route path="domains/:domainId/tasks/:taskId" element={<TaskDetailPage />} />
-                        <Route path="submissions" element={<SubmissionsPage />} />
-                    </Route>
-                </Route>
-            </Route>
-
-            {/* Admin dashboard - route guard + database-level RLS */}
-            {/* Both admin and mentor can access; domain management is admin-only */}
-            <Route element={<RequireAuth />}>
-                <Route element={<RequireStaff />}>
-                    <Route path="/admin" element={<AppShell />}>
-                        <Route index element={<AdminOverview />} />
+                <Route element={<RequireAuth />}>
+                    <Route path="/app" element={<AppShell />}>
+                        <Route index element={<Navigate to="/app/domains" replace />} />
                         <Route path="profile" element={<ProfilePage />} />
-                        <Route path="reviews" element={<AdminReviews />} />
-                        <Route path="interviews" element={<AdminInterviews />} />
-                        <Route element={<RequireAdmin />}>
-                            <Route path="domains" element={<AdminDomains />} />
-                            <Route path="domains/:domainId" element={<AdminTasks />} />
-                        </Route>
-                        <Route element={<RequireOwner />}>
-                            <Route path="users" element={<AdminUsers />} />
+                        <Route element={<RequireProfile />}>
+                            <Route path="domains" element={<DomainsPage />} />
+                            <Route path="domains/:domainId" element={<DomainTasksPage />} />
+                            <Route path="domains/:domainId/tasks/:taskId" element={<TaskDetailPage />} />
+                            <Route path="submissions" element={<SubmissionsPage />} />
                         </Route>
                     </Route>
                 </Route>
-            </Route>
 
-            <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+                <Route element={<RequireAuth />}>
+                    <Route element={<RequireStaff />}>
+                        <Route path="/admin" element={<AppShell />}>
+                            <Route index element={<AdminOverview />} />
+                            <Route path="profile" element={<ProfilePage />} />
+                            <Route path="reviews" element={<AdminReviews />} />
+                            <Route path="interviews" element={<AdminInterviews />} />
+                            <Route element={<RequireAdmin />}>
+                                <Route path="domains" element={<AdminDomains />} />
+                                <Route path="domains/:domainId" element={<AdminTasks />} />
+                            </Route>
+                            <Route element={<RequireOwner />}>
+                                <Route path="users" element={<AdminUsers />} />
+                            </Route>
+                        </Route>
+                    </Route>
+                </Route>
+
+                <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+        </>
     );
 }
