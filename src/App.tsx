@@ -3,6 +3,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { RequireStaff } from "@/components/auth/RequireStaff";
 import { RequireAuth } from "@/components/auth/RequireAuth";
 import { RequireAdmin } from "@/components/auth/RequireAdmin";
+import { RequireOwner } from "@/components/auth/RequireOwner";
 import { RequireProfile } from "@/components/auth/RequireProfile";
 import { LoginPage } from "@/pages/auth/LoginPage";
 import { useAuth } from "@/context/AuthContext";
@@ -17,13 +18,15 @@ import { AdminDomains } from "@/pages/admin/AdminDomains";
 import { AdminTasks } from "@/pages/admin/AdminTasks";
 import { AdminReviews } from "@/pages/admin/AdminReviews";
 import { AdminInterviews } from "@/pages/admin/AdminInterviews";
+import { AdminUsers } from "@/pages/admin/AdminUsers";
 import { NotFoundPage } from "@/pages/NotFound";
 
 function RootRedirect() {
     const { session, profile, loading } = useAuth();
     if (loading) return null;
     if (!session) return <Navigate to="/login" replace />;
-    if (profile?.role === "admin" || profile?.role === "mentor") return <Navigate to="/admin" replace />;
+    if (profile?.role === "admin" || profile?.role === "mentor" || profile?.role === "owner")
+        return <Navigate to="/admin" replace />;
     if (profile && !isProfileComplete(profile)) return <Navigate to="/app/profile" replace />;
     return <Navigate to="/app/domains" replace />;
 }
@@ -60,6 +63,9 @@ export default function App() {
                         <Route element={<RequireAdmin />}>
                             <Route path="domains" element={<AdminDomains />} />
                             <Route path="domains/:domainId" element={<AdminTasks />} />
+                        </Route>
+                        <Route element={<RequireOwner />}>
+                            <Route path="users" element={<AdminUsers />} />
                         </Route>
                     </Route>
                 </Route>

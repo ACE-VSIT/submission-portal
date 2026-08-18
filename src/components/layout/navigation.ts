@@ -10,6 +10,7 @@ import {
     Eye,
     GraduationCap,
     Send,
+    Users,
 } from "lucide-react";
 
 export const studentNav: NavSection[] = [
@@ -31,6 +32,27 @@ export const adminNav: NavSection[] = [
             { label: "Domains", to: "/admin/domains", icon: "layers" },
             { label: "Reviews", to: "/admin/reviews", icon: "clipboard" },
             { label: "Interviews", to: "/admin/interviews", icon: "users" },
+        ],
+    },
+    {
+        label: "Student Portal",
+        items: [{ label: "Student Portal", to: "/app/domains", icon: "graduation" }],
+    },
+    {
+        label: "Account",
+        items: [{ label: "My Profile", to: "/admin/profile", icon: "user" }],
+    },
+];
+
+export const ownerNav: NavSection[] = [
+    {
+        label: "Owner",
+        items: [
+            { label: "Overview", to: "/admin", icon: "dashboard", end: true },
+            { label: "Domains", to: "/admin/domains", icon: "layers" },
+            { label: "Reviews", to: "/admin/reviews", icon: "clipboard" },
+            { label: "Interviews", to: "/admin/interviews", icon: "users" },
+            { label: "Users", to: "/admin/users", icon: "allusers" },
         ],
     },
     {
@@ -72,6 +94,7 @@ export const iconMap: Record<string, LucideIcon> = {
     eye: Eye,
     graduation: GraduationCap,
     send: Send,
+    allusers: Users,
 };
 
 export function labelForPath(pathname: string): string {
@@ -80,6 +103,7 @@ export function labelForPath(pathname: string): string {
         if (pathname.startsWith("/admin/reviews")) return "Reviews";
         if (pathname.startsWith("/admin/interviews")) return "Interviews";
         if (pathname.startsWith("/admin/domains")) return "Domains";
+        if (pathname.startsWith("/admin/users")) return "Users";
         if (pathname.startsWith("/admin/profile")) return "My Profile";
         return "Admin";
     }

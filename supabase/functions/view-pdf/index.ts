@@ -53,7 +53,8 @@ Deno.serve(async (req: Request) => {
 
     // 2. Admin or Mentor - the review tools are staff surfaces.
     const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-    if (profile?.role !== "admin" && profile?.role !== "mentor") return json({ error: "Staff access required." }, 403);
+    if (profile?.role !== "admin" && profile?.role !== "mentor" && profile?.role !== "owner")
+        return json({ error: "Staff access required." }, 403);
 
     // 3. Stream the private PDF from Hugging Face with the server-side token.
     const encodedPath = path.split("/").map(encodeURIComponent).join("/");

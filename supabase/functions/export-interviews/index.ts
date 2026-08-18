@@ -39,7 +39,8 @@ Deno.serve(async (req: Request) => {
     }
 
     const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-    if (profile?.role !== "admin" && profile?.role !== "mentor") return json({ error: "Staff access required." }, 403);
+    if (profile?.role !== "admin" && profile?.role !== "mentor" && profile?.role !== "owner")
+        return json({ error: "Staff access required." }, 403);
 
     // 2. Students + domains (no FK path from submissions → profiles, so fetch both).
     const [profilesRes, domainsRes] = await Promise.all([

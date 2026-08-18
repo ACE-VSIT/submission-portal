@@ -30,7 +30,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
 
     const entries: PaletteEntry[] = React.useMemo(() => {
         const base: PaletteEntry[] = [];
-        if (role === "admin") {
+        if (role === "owner" || role === "admin") {
             base.push(
                 { label: "Admin overview", to: "/admin", group: "Admin", icon: LayoutDashboard },
                 { label: "Manage domains", to: "/admin/domains", group: "Admin", icon: Layers },
@@ -39,6 +39,9 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
                 { label: "My profile", to: "/admin/profile", group: "Admin", icon: User },
                 { label: "Browse student portal", to: "/app/domains", group: "Student Portal", icon: GraduationCap }
             );
+            if (role === "owner") {
+                base.push({ label: "Manage users", to: "/admin/users", group: "Owner", icon: UsersRound });
+            }
         } else if (role === "mentor") {
             base.push(
                 { label: "Mentor overview", to: "/admin", group: "Mentor", icon: LayoutDashboard },

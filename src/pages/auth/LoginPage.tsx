@@ -52,7 +52,8 @@ export function LoginPage() {
     // Redirect signed-in users to the right landing surface.
     React.useEffect(() => {
         if (!session || !profile) return;
-        if (profile.role === "admin" || profile.role === "mentor") navigate("/admin", { replace: true });
+        if (profile.role === "admin" || profile.role === "mentor" || profile.role === "owner")
+            navigate("/admin", { replace: true });
         else if (isProfileComplete(profile)) navigate("/app/domains", { replace: true });
         else navigate("/app/profile", { replace: true });
     }, [session, profile, navigate]);

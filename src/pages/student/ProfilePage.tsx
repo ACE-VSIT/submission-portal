@@ -7,6 +7,14 @@ import { PageHeader } from "@/components/shared/PageHeader";
 import { Badge } from "@/components/ui/badge";
 import { PanelSkeleton } from "@/components/states/LoadingState";
 import { formatDateTime } from "@/lib/utils";
+import type { Role } from "@/lib/types";
+
+const ROLE_LABEL: Record<Role, string> = {
+    student: "Student",
+    mentor: "Mentor",
+    admin: "Admin",
+    owner: "Owner",
+};
 
 export function ProfilePage() {
     const { profile, loading } = useAuth();
@@ -14,7 +22,7 @@ export function ProfilePage() {
     const location = useLocation();
     const isAdminOrMentor = location.pathname.startsWith("/admin");
     const homeCrumb = isAdminOrMentor
-        ? { label: profile?.role === "mentor" ? "Mentor" : "Admin", to: "/admin" }
+        ? { label: ROLE_LABEL[profile?.role ?? "admin"], to: "/admin" }
         : { label: "Student", to: "/app/domains" };
     const complete = profile ? isProfileComplete(profile) : false;
 
@@ -72,16 +80,18 @@ export function ProfilePage() {
                         <div className="mt-4 flex items-center gap-2">
                             <Badge
                                 variant={
-                                    profile.role === "admin"
-                                        ? "primary"
-                                        : profile.role === "mentor"
-                                          ? "warning"
-                                          : "neutral"
+                                    profile.role === "owner"
+                                        ? "success"
+                                        : profile.role === "admin"
+                                          ? "primary"
+                                          : profile.role === "mentor"
+                                            ? "warning"
+                                            : "neutral"
                                 }
                             >
-                                {profile.role === "admin" ? "Admin" : profile.role === "mentor" ? "Mentor" : "Student"}
+                                {ROLE_LABEL[profile.role]}
                             </Badge>
-                            {(profile.role === "admin" || profile.role === "mentor") && (
+                            {(profile.role === "admin" || profile.role === "mentor" || profile.role === "owner") && (
                                 <span className="text-muted-foreground inline-flex items-center gap-1 font-mono text-[0.625rem] tracking-[0.05em] uppercase">
                                     <ShieldCheck className="size-3.5" aria-hidden="true" /> Elevated access
                                 </span>
