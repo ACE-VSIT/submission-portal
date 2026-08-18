@@ -10,7 +10,6 @@ insert into public.domains (name, description, display_order) values
   ('App Development', 'Craft native or cross-platform applications with clean architecture and great UX.', 3),
   ('AI / ML', 'Train, evaluate, and ship intelligent systems - from classic ML to modern deep learning.', 4)
 on conflict do nothing;
-
 -- Tasks reference the seeded domain ids by name for readability.
 do $$
 declare
