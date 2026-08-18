@@ -21,6 +21,7 @@ export function ProfileForm({ initial, onSaved, submitLabel = "Save profile" }: 
     const { refreshProfile } = useAuth();
     const [fullName, setFullName] = React.useState(initial?.full_name ?? "");
     const [phone, setPhone] = React.useState(initial?.phone ?? "");
+    const [enrollmentNo, setEnrollmentNo] = React.useState(initial?.enrollment_no ?? "");
     const [course, setCourse] = React.useState<"BCA" | "MCA" | "">(initial?.course ?? "");
     const [errors, setErrors] = React.useState<Record<string, string>>({});
     const [saving, setSaving] = React.useState(false);
@@ -29,7 +30,8 @@ export function ProfileForm({ initial, onSaved, submitLabel = "Save profile" }: 
         const next: Record<string, string> = {};
         if (!fullName.trim()) next.fullName = "Full name is required.";
         if (!phone.trim()) next.phone = "Phone number is required.";
-        else if (!/^[+0-9 ()-]{7,}$/.test(phone.trim())) next.phone = "Enter a valid phone number.";
+        else if (phone.replace(/\D/g, "").length !== 10) next.phone = "Enter a valid 10-digit phone number.";
+        if (!enrollmentNo.trim()) next.enrollmentNo = "Enrollment No./Rank is required.";
         if (!course) next.course = "Course is required.";
         return next;
     };
@@ -50,6 +52,7 @@ export function ProfileForm({ initial, onSaved, submitLabel = "Save profile" }: 
                 .update({
                     full_name: fullName.trim(),
                     phone: phone.trim(),
+                    enrollment_no: enrollmentNo.trim(),
                     course: course,
                 })
                 .eq("id", data.user.id);
@@ -88,6 +91,18 @@ export function ProfileForm({ initial, onSaved, submitLabel = "Save profile" }: 
                 <Label htmlFor="pf-email">Email</Label>
                 <Input id="pf-email" value={initial?.email ?? ""} disabled readOnly />
                 <p className="text-muted-foreground text-xs">Assigned from your Google account - cannot be changed.</p>
+            </div>
+
+            <div className="space-y-1.5">
+                <Label htmlFor="pf-enrollment">Enrollment No./Rank</Label>
+                <Input
+                    id="pf-enrollment"
+                    value={enrollmentNo}
+                    onChange={(e) => setEnrollmentNo(e.target.value)}
+                    placeholder="e.g. 2301010001 or Rank-5"
+                    {...field("enrollmentNo")}
+                />
+                {errors.enrollmentNo && <p className="text-error text-sm">{errors.enrollmentNo}</p>}
             </div>
 
             <div className="grid gap-5 sm:grid-cols-2">

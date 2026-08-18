@@ -7,6 +7,7 @@ export interface Profile {
     email: string;
     full_name: string;
     phone: string;
+    enrollment_no: string;
     course: "BCA" | "MCA";
     role: Role;
     created_at: string;
