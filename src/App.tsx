@@ -54,6 +54,7 @@ export default function App() {
                 <Route element={<RequireStaff />}>
                     <Route path="/admin" element={<AppShell />}>
                         <Route index element={<AdminOverview />} />
+                        <Route path="profile" element={<ProfilePage />} />
                         <Route path="reviews" element={<AdminReviews />} />
                         <Route path="interviews" element={<AdminInterviews />} />
                         <Route element={<RequireAdmin />}>

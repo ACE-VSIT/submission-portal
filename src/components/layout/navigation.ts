@@ -37,6 +37,10 @@ export const adminNav: NavSection[] = [
         label: "Student Portal",
         items: [{ label: "Student Portal", to: "/app/domains", icon: "graduation" }],
     },
+    {
+        label: "Account",
+        items: [{ label: "My Profile", to: "/admin/profile", icon: "user" }],
+    },
 ];
 
 export const mentorNav: NavSection[] = [
@@ -51,6 +55,10 @@ export const mentorNav: NavSection[] = [
     {
         label: "Student Portal",
         items: [{ label: "Student Portal", to: "/app/domains", icon: "graduation" }],
+    },
+    {
+        label: "Account",
+        items: [{ label: "My Profile", to: "/admin/profile", icon: "user" }],
     },
 ];
 
@@ -72,6 +80,7 @@ export function labelForPath(pathname: string): string {
         if (pathname.startsWith("/admin/reviews")) return "Reviews";
         if (pathname.startsWith("/admin/interviews")) return "Interviews";
         if (pathname.startsWith("/admin/domains")) return "Domains";
+        if (pathname.startsWith("/admin/profile")) return "My Profile";
         return "Admin";
     }
     if (pathname.startsWith("/app")) {

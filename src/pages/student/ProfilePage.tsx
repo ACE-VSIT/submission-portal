@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { UserRound, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { ProfileForm } from "@/components/auth/ProfileForm";
@@ -11,6 +11,11 @@ import { formatDateTime } from "@/lib/utils";
 export function ProfilePage() {
     const { profile, loading } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+    const isAdminOrMentor = location.pathname.startsWith("/admin");
+    const homeCrumb = isAdminOrMentor
+        ? { label: profile?.role === "mentor" ? "Mentor" : "Admin", to: "/admin" }
+        : { label: "Student", to: "/app/domains" };
     const complete = profile ? isProfileComplete(profile) : false;
 
     if (loading || profile === null) return <PanelSkeleton className="mx-auto mt-8 max-w-3xl" />;
@@ -18,7 +23,7 @@ export function ProfilePage() {
     return (
         <div className="page py-8">
             <PageHeader
-                crumbs={[{ label: "Student", to: "/app/domains" }, { label: "My profile" }]}
+                crumbs={[homeCrumb, { label: "My profile" }]}
                 title={complete ? "My Profile" : "Complete your profile"}
                 description={
                     complete
@@ -44,7 +49,7 @@ export function ProfilePage() {
                     <ProfileForm
                         initial={profile}
                         onSaved={() => {
-                            if (!complete) navigate("/app/domains");
+                            if (!complete) navigate(isAdminOrMentor ? "/admin" : "/app/domains");
                         }}
                         submitLabel={complete ? "Save changes" : "Save & continue"}
                     />

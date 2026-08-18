@@ -36,6 +36,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
                 { label: "Manage domains", to: "/admin/domains", group: "Admin", icon: Layers },
                 { label: "Review submissions", to: "/admin/reviews", group: "Admin", icon: ClipboardCheck },
                 { label: "Interview panel", to: "/admin/interviews", group: "Admin", icon: UsersRound },
+                { label: "My profile", to: "/admin/profile", group: "Admin", icon: User },
                 { label: "Browse student portal", to: "/app/domains", group: "Student Portal", icon: GraduationCap }
             );
         } else if (role === "mentor") {
@@ -43,6 +44,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
                 { label: "Mentor overview", to: "/admin", group: "Mentor", icon: LayoutDashboard },
                 { label: "Review submissions", to: "/admin/reviews", group: "Mentor", icon: ClipboardCheck },
                 { label: "Interview panel", to: "/admin/interviews", group: "Mentor", icon: UsersRound },
+                { label: "My profile", to: "/admin/profile", group: "Mentor", icon: User },
                 { label: "Browse student portal", to: "/app/domains", group: "Student Portal", icon: GraduationCap }
             );
         }
