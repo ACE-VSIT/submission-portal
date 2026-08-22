@@ -112,7 +112,7 @@ export function ProfileForm({ initial, onSaved, submitLabel = "Save profile" }: 
                         id="pf-phone"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        placeholder="+91 …"
+                        placeholder="10 digit phone number"
                         inputMode="tel"
                         autoComplete="tel"
                         {...field("phone")}

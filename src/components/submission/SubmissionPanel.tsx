@@ -29,7 +29,11 @@ export function SubmissionPanel({ task, existing, onSuccess }: SubmissionPanelPr
 
     const needsPdf = task.submission_type === "pdf" || task.submission_type === "pdf_link";
     const needsLinks = task.submission_type === "link" || task.submission_type === "pdf_link";
-    const canSubmit = phase === "idle" && (!needsPdf || pdf !== null) && (!needsLinks || links.length > 0);
+    const canSubmit =
+        phase === "idle" &&
+        (needsPdf && needsLinks
+            ? pdf !== null || links.length > 0
+            : (!needsPdf || pdf !== null) && (!needsLinks || links.length > 0));
 
     const handleSubmit = async () => {
         if (!canSubmit) return;
@@ -81,7 +85,7 @@ export function SubmissionPanel({ task, existing, onSuccess }: SubmissionPanelPr
             <div className="border-success/30 bg-success/5 rounded-sm border p-6" role="status">
                 <div className="flex flex-col items-center gap-2 text-center">
                     <CheckCircle2 className="text-success size-8" aria-hidden="true" />
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-col items-center gap-2">
                         <h3 className="font-heading text-foreground text-base font-medium">Submission confirmed</h3>
                         <span className="text-muted-foreground font-mono text-[0.625rem] tracking-[0.05em] uppercase">
                             {new Date(lastSubmission.submitted_at).toLocaleString()}
