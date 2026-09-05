@@ -1,4 +1,4 @@
-import { CalendarClock } from "lucide-react";
+import { CalendarClock, Lock } from "lucide-react";
 import { usePortalDeadline, type DeadlineStatus } from "@/hooks/usePortalDeadline";
 import { cn } from "@/lib/utils";
 
@@ -35,9 +35,29 @@ const dotClasses: Record<DeadlineStatus, string> = {
 };
 
 export function DeadlineBar() {
-    const { deadline, remainingMs, status } = usePortalDeadline();
+    const { deadline, remainingMs, status, closed } = usePortalDeadline();
 
-    if (!deadline || !status) return null;
+    if (!deadline) return null;
+
+    if (closed) {
+        return (
+            <div
+                role="status"
+                className={cn(
+                    "border-border flex items-center gap-2 border-b px-3 py-4 font-mono text-[0.6875rem] font-medium tracking-[0.05em] uppercase sm:px-4",
+                    barClasses.red
+                )}
+            >
+                <span className={cn("size-1.5 shrink-0 rounded-full", dotClasses.red)} aria-hidden="true" />
+                <Lock className="size-3.5 shrink-0" aria-hidden="true" />
+                <span className="truncate">
+                    Submissions closed on <span className="font-bold">{formatDeadline(deadline)}</span>
+                </span>
+            </div>
+        );
+    }
+
+    if (!status) return null;
 
     return (
         <div

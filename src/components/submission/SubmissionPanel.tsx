@@ -1,8 +1,9 @@
 import * as React from "react";
 import { toast } from "sonner";
-import { CloudUpload, CheckCircle2, FileText, Link2, RefreshCw } from "lucide-react";
+import { CloudUpload, CheckCircle2, FileText, Link2, Lock, RefreshCw } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { Task, Submission } from "@/lib/types";
+import { usePortalDeadline } from "@/hooks/usePortalDeadline";
 import { PdfUpload } from "./PdfUpload";
 import { LinkInput } from "./LinkInput";
 import { uploadPdfWithProgress } from "@/lib/storage";
@@ -20,6 +21,7 @@ interface SubmissionPanelProps {
 
 export function SubmissionPanel({ task, existing, onSuccess }: SubmissionPanelProps) {
     const { profile } = useAuth();
+    const { closed } = usePortalDeadline();
     const [phase, setPhase] = React.useState<Phase>(existing ? "done" : "idle");
     const [lastSubmission, setLastSubmission] = React.useState<Submission | null>(existing);
     const [pdf, setPdf] = React.useState<File | null>(null);
@@ -78,6 +80,22 @@ export function SubmissionPanel({ task, existing, onSuccess }: SubmissionPanelPr
             toast.error(err instanceof Error ? err.message : "Submission failed. Please try again.");
         }
     };
+
+    // ── Closed state ────────────────────────────────────────────────────────────
+    if (closed) {
+        return (
+            <div
+                className="border-error/30 bg-error/5 flex flex-col items-center gap-2 rounded-sm border p-6 text-center"
+                role="status"
+            >
+                <Lock className="text-error size-8" strokeWidth={1.5} aria-hidden="true" />
+                <h3 className="font-heading text-foreground text-base font-medium">Submissions are closed</h3>
+                <p className="text-muted-foreground max-w-md text-sm">
+                    The deadline has passed, so new submissions can’t be accepted for this task.
+                </p>
+            </div>
+        );
+    }
 
     // ── Done state ──────────────────────────────────────────────────────────────
     if (phase === "done" && lastSubmission) {

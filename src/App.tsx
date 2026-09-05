@@ -5,6 +5,7 @@ import { RequireAuth } from "@/components/auth/RequireAuth";
 import { RequireAdmin } from "@/components/auth/RequireAdmin";
 import { RequireOwner } from "@/components/auth/RequireOwner";
 import { RequireProfile } from "@/components/auth/RequireProfile";
+import { RequireSubmissionOpen } from "@/components/auth/RequireSubmissionOpen";
 import { LoginPage } from "@/pages/auth/LoginPage";
 import { useAuth } from "@/context/AuthContext";
 import { isProfileComplete } from "@/components/auth/RequireProfile";
@@ -51,9 +52,11 @@ export default function App() {
                         <Route index element={<Navigate to="/app/domains" replace />} />
                         <Route path="profile" element={<ProfilePage />} />
                         <Route element={<RequireProfile />}>
-                            <Route path="domains" element={<DomainsPage />} />
-                            <Route path="domains/:domainId" element={<DomainTasksPage />} />
-                            <Route path="domains/:domainId/tasks/:taskId" element={<TaskDetailPage />} />
+                            <Route element={<RequireSubmissionOpen />}>
+                                <Route path="domains" element={<DomainsPage />} />
+                                <Route path="domains/:domainId" element={<DomainTasksPage />} />
+                                <Route path="domains/:domainId/tasks/:taskId" element={<TaskDetailPage />} />
+                            </Route>
                             <Route path="submissions" element={<SubmissionsPage />} />
                             <Route path="announcements" element={<AnnouncementsPage />} />
                             <Route path="faqs" element={<FAQsPage />} />
