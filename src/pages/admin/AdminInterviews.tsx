@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 import { useAdminReviewData, type ReviewSubmissionView } from "@/hooks/useAdminReviewData";
 import { buildPdfViewUrl, upsertInterviewRecord } from "@/lib/admin";
 import { PageHeader } from "@/components/shared/PageHeader";
+import { StatCell } from "@/components/shared/StatCell";
 import { EmptyState } from "@/components/states/EmptyState";
 import { ErrorState } from "@/components/states/ErrorState";
 import { TableSkeleton } from "@/components/states/LoadingState";
@@ -134,6 +135,16 @@ export function AdminInterviews() {
         });
     }, [rows, domainId, search]);
 
+    const interviewStats = React.useMemo(() => {
+        const done = rows.filter((r) => r.interview_done).length;
+        return {
+            called: rows.length,
+            done,
+            remaining: rows.length - done,
+            selected: rows.filter((r) => r.selected_for_ace).length,
+        };
+    }, [rows]);
+
     const handleInterviewDone = async (row: InterviewRow, value: boolean) => {
         try {
             await upsertInterviewRecord({
@@ -249,177 +260,202 @@ export function AdminInterviews() {
             {loading && !error && <TableSkeleton rows={6} />}
 
             {!loading && !error && data && (
-                <section className="panel panel-ticks relative">
-                    <div className="border-border flex flex-col gap-4 border-b p-5 sm:flex-row sm:items-end sm:p-6">
-                        <div className="w-full sm:max-w-xs">
-                            <Label htmlFor="iv-domain">Domain</Label>
-                            <Select value={domainId} onValueChange={setDomainId}>
-                                <SelectTrigger id="iv-domain" className="mt-1.5" aria-label="Domain">
-                                    <SelectValue placeholder="All domains" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">All domains</SelectItem>
-                                    {domains.map((d) => (
-                                        <SelectItem key={d.id} value={d.id}>
-                                            {d.name}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div className="w-full sm:max-w-xs">
-                            <Label htmlFor="iv-search">Search</Label>
-                            <div className="relative mt-1.5">
-                                <Search
-                                    className="text-muted-foreground/60 pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2"
-                                    aria-hidden="true"
-                                />
-                                <Input
-                                    id="iv-search"
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    placeholder="Name, email, phone..."
-                                    className="pl-8"
-                                />
-                            </div>
-                        </div>
-                        <p className="text-muted-foreground font-mono text-[0.625rem] tracking-[0.05em] uppercase sm:ml-auto">
-                            {filtered.length} selected for interview
-                        </p>
+                <>
+                    <div className="panel divide-border grid grid-cols-1 divide-y md:grid-cols-4 md:divide-x md:divide-y-0">
+                        <StatCell
+                            label="Called for interview"
+                            value={interviewStats.called}
+                            hint="Student × domain shortlists"
+                        />
+                        <StatCell label="Interviews done" value={interviewStats.done} hint="Marked complete" />
+                        <StatCell
+                            label="Interviews remaining"
+                            value={interviewStats.remaining}
+                            hint="Pending interview"
+                        />
+                        <StatCell label="Selected for ACE" value={interviewStats.selected} hint="Final selections" />
                     </div>
 
-                    {filtered.length === 0 ? (
-                        <EmptyState
-                            icon={UsersRound}
-                            eyebrow="No interviews"
-                            title="Nobody shortlisted yet"
-                            description="Mark submissions as selected for interview in Submissions - they appear here grouped by domain."
-                            action={
-                                <Link to="/admin/submissions">
-                                    <Button variant="secondary">Open Submissions</Button>
-                                </Link>
-                            }
-                        />
-                    ) : (
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead className="bg-secondary">
-                                    <tr>
-                                        {["Student", "Email", "Phone", "Domain", "Interview", "Selection", ""].map(
-                                            (h, i) => (
-                                                <th
-                                                    key={h}
-                                                    scope="col"
-                                                    className={cn(
-                                                        "text-muted-foreground px-5 py-3 text-left font-mono text-[0.6875rem] font-medium tracking-[0.05em] uppercase",
-                                                        i === 0 && "pl-6"
-                                                    )}
-                                                >
-                                                    {h}
-                                                </th>
-                                            )
-                                        )}
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-border divide-y">
-                                    {filtered.map((row) => (
-                                        <tr
-                                            key={`${row.student_id}-${row.domain_id}`}
-                                            className="hover:bg-secondary/60 transition-colors duration-150"
-                                        >
-                                            <td className="px-5 py-4 pl-6 whitespace-nowrap">
-                                                <div className="flex items-center gap-3">
-                                                    <div>
-                                                        <p className="text-foreground text-sm font-medium">
-                                                            {row.full_name || "-"}
-                                                        </p>
-                                                        <p className="text-muted-foreground font-mono text-[0.625rem] tracking-[0.05em] uppercase">
-                                                            {row.course
-                                                                ? `${row.course} - ${ordinal(
-                                                                      /^\d{11}$/.test(row.enrollment_no?.trim() ?? "")
-                                                                          ? studyYearFromEnrollment(row.enrollment_no)
-                                                                          : 1
-                                                                  )} Year`
-                                                                : "-"}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-5 py-4 whitespace-nowrap">
-                                                <span className="text-muted-foreground font-mono text-xs">
-                                                    {row.email}
-                                                </span>
-                                            </td>
-                                            <td className="px-5 py-4 whitespace-nowrap">
-                                                <span className="text-muted-foreground text-sm">
-                                                    {row.phone || "-"}
-                                                </span>
-                                            </td>
-                                            <td className="px-5 py-4 whitespace-nowrap">
-                                                <Badge variant="primary">{row.domain_name}</Badge>
-                                            </td>
-                                            <td className="px-5 py-4 whitespace-nowrap">
-                                                <label className="flex cursor-pointer items-center gap-2">
-                                                    <Checkbox
-                                                        checked={row.interview_done}
-                                                        onCheckedChange={(v) => handleInterviewDone(row, v === true)}
-                                                    />
-                                                    <span
-                                                        className={cn(
-                                                            "text-sm",
-                                                            row.interview_done
-                                                                ? "text-success"
-                                                                : "text-muted-foreground"
-                                                        )}
-                                                    >
-                                                        {row.interview_done ? "Done" : "Pending"}
-                                                    </span>
-                                                </label>
-                                            </td>
-                                            <td className="px-5 py-4 whitespace-nowrap">
-                                                <label className="flex cursor-pointer items-center gap-2">
-                                                    <Checkbox
-                                                        checked={row.selected_for_ace}
-                                                        onCheckedChange={(v) => handleSelectedForAce(row, v === true)}
-                                                    />
-                                                    <span
-                                                        className={cn(
-                                                            "text-sm",
-                                                            row.selected_for_ace
-                                                                ? "text-success"
-                                                                : "text-muted-foreground"
-                                                        )}
-                                                    >
-                                                        {row.selected_for_ace ? "Selected" : "Not selected"}
-                                                    </span>
-                                                </label>
-                                            </td>
-                                            <td className="px-5 py-4 whitespace-nowrap">
-                                                <div className="flex items-center justify-end gap-1.5">
-                                                    <Button
-                                                        variant="secondary"
-                                                        size="sm"
-                                                        onClick={() => openNotes(row)}
-                                                    >
-                                                        <PenLine className="size-4" aria-hidden="true" />
-                                                        Notes
-                                                    </Button>
-                                                    <Button
-                                                        variant="secondary"
-                                                        size="sm"
-                                                        onClick={() => setSubsTarget(row)}
-                                                    >
-                                                        View submissions
-                                                    </Button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                    <section className="panel panel-ticks relative mt-6">
+                        <div className="border-border flex flex-col gap-4 border-b p-5 sm:flex-row sm:items-end sm:p-6">
+                            <div className="w-full sm:max-w-xs">
+                                <Label htmlFor="iv-domain">Domain</Label>
+                                <Select value={domainId} onValueChange={setDomainId}>
+                                    <SelectTrigger id="iv-domain" className="mt-1.5" aria-label="Domain">
+                                        <SelectValue placeholder="All domains" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">All domains</SelectItem>
+                                        {domains.map((d) => (
+                                            <SelectItem key={d.id} value={d.id}>
+                                                {d.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="w-full sm:max-w-xs">
+                                <Label htmlFor="iv-search">Search</Label>
+                                <div className="relative mt-1.5">
+                                    <Search
+                                        className="text-muted-foreground/60 pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2"
+                                        aria-hidden="true"
+                                    />
+                                    <Input
+                                        id="iv-search"
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                        placeholder="Name, email, phone..."
+                                        className="pl-8"
+                                    />
+                                </div>
+                            </div>
+                            <p className="text-muted-foreground font-mono text-[0.625rem] tracking-[0.05em] uppercase sm:ml-auto">
+                                {filtered.length} selected for interview
+                            </p>
                         </div>
-                    )}
-                </section>
+
+                        {filtered.length === 0 ? (
+                            <EmptyState
+                                icon={UsersRound}
+                                eyebrow="No interviews"
+                                title="Nobody shortlisted yet"
+                                description="Mark submissions as selected for interview in Submissions - they appear here grouped by domain."
+                                action={
+                                    <Link to="/admin/submissions">
+                                        <Button variant="secondary">Open Submissions</Button>
+                                    </Link>
+                                }
+                            />
+                        ) : (
+                            <div className="overflow-x-auto">
+                                <table className="w-full">
+                                    <thead className="bg-secondary">
+                                        <tr>
+                                            {["Student", "Email", "Phone", "Domain", "Interview", "Selection", ""].map(
+                                                (h, i) => (
+                                                    <th
+                                                        key={h}
+                                                        scope="col"
+                                                        className={cn(
+                                                            "text-muted-foreground px-5 py-3 text-left font-mono text-[0.6875rem] font-medium tracking-[0.05em] uppercase",
+                                                            i === 0 && "pl-6"
+                                                        )}
+                                                    >
+                                                        {h}
+                                                    </th>
+                                                )
+                                            )}
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-border divide-y">
+                                        {filtered.map((row) => (
+                                            <tr
+                                                key={`${row.student_id}-${row.domain_id}`}
+                                                className="hover:bg-secondary/60 transition-colors duration-150"
+                                            >
+                                                <td className="px-5 py-4 pl-6 whitespace-nowrap">
+                                                    <div className="flex items-center gap-3">
+                                                        <div>
+                                                            <p className="text-foreground text-sm font-medium">
+                                                                {row.full_name || "-"}
+                                                            </p>
+                                                            <p className="text-muted-foreground font-mono text-[0.625rem] tracking-[0.05em] uppercase">
+                                                                {row.course
+                                                                    ? `${row.course} - ${ordinal(
+                                                                          /^\d{11}$/.test(
+                                                                              row.enrollment_no?.trim() ?? ""
+                                                                          )
+                                                                              ? studyYearFromEnrollment(
+                                                                                    row.enrollment_no
+                                                                                )
+                                                                              : 1
+                                                                      )} Year`
+                                                                    : "-"}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-5 py-4 whitespace-nowrap">
+                                                    <span className="text-muted-foreground font-mono text-xs">
+                                                        {row.email}
+                                                    </span>
+                                                </td>
+                                                <td className="px-5 py-4 whitespace-nowrap">
+                                                    <span className="text-muted-foreground text-sm">
+                                                        {row.phone || "-"}
+                                                    </span>
+                                                </td>
+                                                <td className="px-5 py-4 whitespace-nowrap">
+                                                    <Badge variant="primary">{row.domain_name}</Badge>
+                                                </td>
+                                                <td className="px-5 py-4 whitespace-nowrap">
+                                                    <label className="flex cursor-pointer items-center gap-2">
+                                                        <Checkbox
+                                                            checked={row.interview_done}
+                                                            onCheckedChange={(v) =>
+                                                                handleInterviewDone(row, v === true)
+                                                            }
+                                                        />
+                                                        <span
+                                                            className={cn(
+                                                                "text-sm",
+                                                                row.interview_done
+                                                                    ? "text-success"
+                                                                    : "text-muted-foreground"
+                                                            )}
+                                                        >
+                                                            {row.interview_done ? "Done" : "Pending"}
+                                                        </span>
+                                                    </label>
+                                                </td>
+                                                <td className="px-5 py-4 whitespace-nowrap">
+                                                    <label className="flex cursor-pointer items-center gap-2">
+                                                        <Checkbox
+                                                            checked={row.selected_for_ace}
+                                                            onCheckedChange={(v) =>
+                                                                handleSelectedForAce(row, v === true)
+                                                            }
+                                                        />
+                                                        <span
+                                                            className={cn(
+                                                                "text-sm",
+                                                                row.selected_for_ace
+                                                                    ? "text-success"
+                                                                    : "text-muted-foreground"
+                                                            )}
+                                                        >
+                                                            {row.selected_for_ace ? "Selected" : "Not selected"}
+                                                        </span>
+                                                    </label>
+                                                </td>
+                                                <td className="px-5 py-4 whitespace-nowrap">
+                                                    <div className="flex items-center justify-end gap-1.5">
+                                                        <Button
+                                                            variant="secondary"
+                                                            size="sm"
+                                                            onClick={() => openNotes(row)}
+                                                        >
+                                                            <PenLine className="size-4" aria-hidden="true" />
+                                                            Notes
+                                                        </Button>
+                                                        <Button
+                                                            variant="secondary"
+                                                            size="sm"
+                                                            onClick={() => setSubsTarget(row)}
+                                                        >
+                                                            View submissions
+                                                        </Button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </section>
+                </>
             )}
 
             {/* Notes dialog */}

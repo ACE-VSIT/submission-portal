@@ -26,8 +26,30 @@ import { cn, ordinal, studyYearFromEnrollment } from "@/lib/utils";
  *     year, selection status
  *   • per-submission: view/download links, "Selected for interview" checkbox,
  *     persistent private admin notes
- *   • stat cells - total students, total submissions, top submitted tasks
+ *   • stat cells - total students, total submissions, top domains, top tasks
  */
+function TopCountsList({ title, items }: { title: string; items: [string, number][] }) {
+    return (
+        <div className="p-6">
+            <p className="text-muted-foreground font-mono text-[0.6875rem] font-medium tracking-[0.05em] uppercase">
+                {title}
+            </p>
+            {items.length === 0 ? (
+                <p className="text-muted-foreground mt-2 text-sm">No submissions found.</p>
+            ) : (
+                <ul className="mt-2 space-y-1.5">
+                    {items.map(([name, count]) => (
+                        <li key={name} className="flex items-center justify-between gap-3">
+                            <span className="text-foreground truncate text-sm uppercase">{name}</span>
+                            <span className="text-electric shrink-0 font-mono text-xs">{count}</span>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+}
+
 export function AdminSubmissions() {
     const { data, loading, error, refetch } = useAdminReviewData();
 
@@ -114,6 +136,16 @@ export function AdminSubmissions() {
         [filteredStudents, byStudent, matchingSubmissions]
     );
 
+    const topDomains = React.useMemo(() => {
+        const counts = new Map<string, number>();
+        for (const p of filteredStudents) {
+            for (const s of matchingSubmissions(byStudent.get(p.id) ?? [])) {
+                counts.set(s.domain_name, (counts.get(s.domain_name) ?? 0) + 1);
+            }
+        }
+        return [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
+    }, [filteredStudents, byStudent, matchingSubmissions]);
+
     const topTasks = React.useMemo(() => {
         const counts = new Map<string, number>();
         for (const p of filteredStudents) {
@@ -167,26 +199,11 @@ export function AdminSubmissions() {
 
             {!loading && !error && data && (
                 <>
-                    <div className="panel divide-border grid grid-cols-1 divide-y md:grid-cols-3 md:divide-x md:divide-y-0">
+                    <div className="panel divide-border grid grid-cols-1 divide-y md:grid-cols-4 md:divide-x md:divide-y-0">
                         <StatCell label="Students" value={totalStudents} hint="With matching submissions" />
                         <StatCell label="Submissions" value={totalSubmissions} hint="Matching current filters" />
-                        <div className="p-6">
-                            <p className="text-muted-foreground font-mono text-[0.6875rem] font-medium tracking-[0.05em] uppercase">
-                                Top tasks
-                            </p>
-                            {topTasks.length === 0 ? (
-                                <p className="text-muted-foreground mt-2 text-sm">No submissions found.</p>
-                            ) : (
-                                <ul className="mt-2 space-y-1.5">
-                                    {topTasks.map(([name, count]) => (
-                                        <li key={name} className="flex items-center justify-between gap-3">
-                                            <span className="text-foreground truncate text-sm uppercase">{name}</span>
-                                            <span className="text-electric shrink-0 font-mono text-xs">{count}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </div>
+                        <TopCountsList title="Top domains" items={topDomains} />
+                        <TopCountsList title="Top tasks" items={topTasks} />
                     </div>
 
                     <section className="panel panel-ticks relative mt-6">
