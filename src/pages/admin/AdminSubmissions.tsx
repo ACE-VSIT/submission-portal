@@ -286,18 +286,20 @@ export function AdminSubmissions() {
                                 <table className="w-full">
                                     <thead className="bg-secondary">
                                         <tr>
-                                            {["Student", "Email", "Phone", "Course", "Submissions", ""].map((h, i) => (
-                                                <th
-                                                    key={h}
-                                                    scope="col"
-                                                    className={cn(
-                                                        "text-muted-foreground px-5 py-3 text-left font-mono text-[0.6875rem] font-medium tracking-[0.05em] uppercase",
-                                                        i === 0 && "pl-6"
-                                                    )}
-                                                >
-                                                    {h}
-                                                </th>
-                                            ))}
+                                            {["Student", "Email", "Phone", "Course", "Submissions", "Domains", ""].map(
+                                                (h, i) => (
+                                                    <th
+                                                        key={h}
+                                                        scope="col"
+                                                        className={cn(
+                                                            "text-muted-foreground px-5 py-3 text-left font-mono text-[0.6875rem] font-medium tracking-[0.05em] uppercase",
+                                                            i === 0 && "pl-6"
+                                                        )}
+                                                    >
+                                                        {h}
+                                                    </th>
+                                                )
+                                            )}
                                         </tr>
                                     </thead>
                                     <tbody className="divide-border divide-y">
@@ -337,6 +339,11 @@ export function AdminSubmissions() {
                                                     <td className="px-5 py-4 whitespace-nowrap">
                                                         <span className="text-foreground font-mono text-sm">
                                                             {subs.length}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-5 py-4 whitespace-nowrap">
+                                                        <span className="text-foreground font-mono text-sm">
+                                                            {new Set(subs.map((s) => s.domain_id)).size}
                                                         </span>
                                                     </td>
                                                     <td className="px-5 py-4 text-right whitespace-nowrap">
