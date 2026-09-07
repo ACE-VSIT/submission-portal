@@ -158,11 +158,24 @@ export function AdminSubmissions() {
 
     const handleSelectedChange = async (submission: ReviewSubmissionView, selected: boolean) => {
         try {
-            await updateSubmissionReview(submission.id, { selected_for_interview: selected });
+            await updateSubmissionReview(submission.id, { selected_for_interview: selected, rejected: false });
             toast.success(selected ? "Selected for interview" : "Selection removed");
             refetch();
         } catch (err) {
             toast.error(err instanceof Error ? err.message : "Could not update selection.");
+        }
+    };
+
+    const handleRejectedChange = async (submission: ReviewSubmissionView, rejected: boolean) => {
+        try {
+            await updateSubmissionReview(submission.id, {
+                rejected,
+                selected_for_interview: false,
+            });
+            toast.success(rejected ? "Submission rejected" : "Rejection removed");
+            refetch();
+        } catch (err) {
+            toast.error(err instanceof Error ? err.message : "Could not update rejection.");
         }
     };
 
@@ -395,6 +408,7 @@ export function AdminSubmissions() {
                                         editable
                                         pdfUrl={pdfView(sub)}
                                         onSelectedChange={(sel) => handleSelectedChange(sub, sel)}
+                                        onRejectedChange={(rej) => handleRejectedChange(sub, rej)}
                                         onNotesSave={(notes) => handleNotesSave(sub, notes)}
                                     />
                                 ))

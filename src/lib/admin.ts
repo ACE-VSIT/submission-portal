@@ -8,7 +8,7 @@ import { supabaseUrl } from "./config";
 
 export async function updateSubmissionReview(
     id: string,
-    patch: { selected_for_interview?: boolean; admin_notes?: string | null }
+    patch: { selected_for_interview?: boolean; rejected?: boolean; admin_notes?: string | null }
 ): Promise<void> {
     const { error } = await supabase.from("submissions").update(patch).eq("id", id);
     if (error) throw error;

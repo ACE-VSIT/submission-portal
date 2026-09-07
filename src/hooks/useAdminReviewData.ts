@@ -21,6 +21,7 @@ export interface ReviewSubmissionView {
     status: Submission["status"];
     submitted_at: string;
     selected_for_interview: boolean;
+    rejected: boolean;
     admin_notes: string | null;
     task_name: string;
     domain_name: string;
@@ -58,6 +59,7 @@ export async function fetchAdminReviewData(): Promise<AdminReviewData> {
     const submissions: ReviewSubmissionView[] = ((subsRes.data as Submission[]) ?? []).map((s) => ({
         ...s,
         selected_for_interview: s.selected_for_interview ?? false,
+        rejected: s.rejected ?? false,
         admin_notes: s.admin_notes ?? null,
         task_name: taskMap.get(s.task_id)?.name ?? "Deleted task",
         domain_name: domainMap.get(s.domain_id)?.name ?? "Deleted domain",

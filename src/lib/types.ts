@@ -50,6 +50,8 @@ export interface Submission {
     status: "submitted" | "failed";
     /** Admin review: shortlist this task submission for an interview (ported from admintable-old). */
     selected_for_interview?: boolean;
+    /** Admin review: reject this task submission while reviewing it. */
+    rejected?: boolean;
     /** Admin review: private per-submission note (ported from admintable-old). */
     admin_notes?: string | null;
     submitted_at: string;
