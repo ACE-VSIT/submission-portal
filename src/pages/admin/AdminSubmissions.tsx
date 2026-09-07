@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { ClipboardCheck, Eye, Search, Users } from "lucide-react";
+import { ClipboardCheck, Eye, Minus, Search, Users, X, Check } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAdminReviewData, type ReviewSubmissionView } from "@/hooks/useAdminReviewData";
 import { buildPdfViewUrl, updateSubmissionReview } from "@/lib/admin";
@@ -96,6 +96,18 @@ export function AdminSubmissions() {
         }
         return map;
     }, [submissions]);
+
+    const statusForStudent = React.useCallback((list: ReviewSubmissionView[]) => {
+        const selected = list.filter((s) => s.selected_for_interview);
+        if (selected.length > 0) {
+            return {
+                type: "accepted" as const,
+                domains: [...new Set(selected.map((s) => s.domain_name))],
+            };
+        }
+        if (list.some((s) => s.rejected)) return { type: "rejected" as const, domains: [] };
+        return { type: "pending" as const, domains: [] };
+    }, []);
 
     const matchingSubmissions = React.useCallback(
         (list: ReviewSubmissionView[]) => {
@@ -299,25 +311,34 @@ export function AdminSubmissions() {
                                 <table className="w-full">
                                     <thead className="bg-secondary">
                                         <tr>
-                                            {["Student", "Email", "Phone", "Course", "Submissions", "Domains", ""].map(
-                                                (h, i) => (
-                                                    <th
-                                                        key={h}
-                                                        scope="col"
-                                                        className={cn(
-                                                            "text-muted-foreground px-5 py-3 text-left font-mono text-[0.6875rem] font-medium tracking-[0.05em] uppercase",
-                                                            i === 0 && "pl-6"
-                                                        )}
-                                                    >
-                                                        {h}
-                                                    </th>
-                                                )
-                                            )}
+                                            {[
+                                                "Student",
+                                                "Email",
+                                                "Phone",
+                                                "Course",
+                                                "Submissions",
+                                                "Domains",
+                                                "Status",
+                                                "",
+                                            ].map((h, i) => (
+                                                <th
+                                                    key={h}
+                                                    scope="col"
+                                                    className={cn(
+                                                        "text-muted-foreground px-5 py-3 text-left font-mono text-[0.6875rem] font-medium tracking-[0.05em] uppercase",
+                                                        i === 0 && "pl-6"
+                                                    )}
+                                                >
+                                                    {h}
+                                                </th>
+                                            ))}
                                         </tr>
                                     </thead>
                                     <tbody className="divide-border divide-y">
                                         {filteredStudents.map((p) => {
                                             const subs = matchingSubmissions(byStudent.get(p.id) ?? []);
+                                            const allSubs = byStudent.get(p.id) ?? [];
+                                            const status = statusForStudent(allSubs);
                                             return (
                                                 <tr
                                                     key={p.id}
@@ -360,6 +381,29 @@ export function AdminSubmissions() {
                                                         </span>
                                                     </td>
                                                     <td className="px-5 py-4 text-right whitespace-nowrap">
+                                                        {status.type === "accepted" ? (
+                                                            <span className="group relative inline-flex cursor-help">
+                                                                <Check
+                                                                    className="text-success size-4"
+                                                                    aria-hidden="true"
+                                                                />
+                                                                <span
+                                                                    role="tooltip"
+                                                                    className="text-foreground bg-card border-border pointer-events-none absolute top-full right-0 z-10 mt-1.5 hidden max-w-[280px] rounded-sm border px-2 py-1 text-right font-mono text-[0.625rem] tracking-[0.05em] uppercase shadow-lg group-hover:block"
+                                                                >
+                                                                    {status.domains.join(", ")}
+                                                                </span>
+                                                            </span>
+                                                        ) : status.type === "rejected" ? (
+                                                            <X className="text-error size-4" aria-hidden="true" />
+                                                        ) : (
+                                                            <Minus
+                                                                className="text-muted-foreground/50 size-4"
+                                                                aria-hidden="true"
+                                                            />
+                                                        )}
+                                                    </td>
+                                                    <td className="px-5 py-4 text-right whitespace-nowrap">
                                                         <Button
                                                             variant="secondary"
                                                             size="sm"
@@ -396,23 +440,32 @@ export function AdminSubmissions() {
                     </DialogHeader>
                     {dialog && (
                         <div className="max-h-[60vh] space-y-3 overflow-y-auto pr-1">
-                            {matchingSubmissions(byStudent.get(dialog.student_id) ?? []).length === 0 ? (
-                                <p className="text-muted-foreground py-8 text-center text-sm">
-                                    No submissions match the current filters.
-                                </p>
-                            ) : (
-                                matchingSubmissions(byStudent.get(dialog.student_id) ?? []).map((sub) => (
+                            {(() => {
+                                const dialogSubs = matchingSubmissions(byStudent.get(dialog.student_id) ?? []);
+                                const allStudentSubs = byStudent.get(dialog.student_id) ?? [];
+                                const gateSelection = allStudentSubs.some((s) => s.rejected);
+                                const gateRejection = allStudentSubs.some((s) => s.selected_for_interview);
+                                if (dialogSubs.length === 0) {
+                                    return (
+                                        <p className="text-muted-foreground py-8 text-center text-sm">
+                                            No submissions match the current filters.
+                                        </p>
+                                    );
+                                }
+                                return dialogSubs.map((sub) => (
                                     <SubmissionReviewCard
                                         key={sub.id}
                                         submission={sub}
                                         editable
                                         pdfUrl={pdfView(sub)}
+                                        disableSelection={gateSelection}
+                                        disableRejection={gateRejection}
                                         onSelectedChange={(sel) => handleSelectedChange(sub, sel)}
                                         onRejectedChange={(rej) => handleRejectedChange(sub, rej)}
                                         onNotesSave={(notes) => handleNotesSave(sub, notes)}
                                     />
-                                ))
-                            )}
+                                ));
+                            })()}
                         </div>
                     )}
                 </DialogContent>

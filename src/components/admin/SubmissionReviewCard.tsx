@@ -13,6 +13,10 @@ interface SubmissionReviewCardProps {
     /** Reviews page: allow toggling "selected for interview" + editing notes. */
     editable?: boolean;
     pdfUrl?: string | null;
+    /** Disable the "select for interview" toggle (student already rejected somewhere). */
+    disableSelection?: boolean;
+    /** Disable the "reject" toggle (student already selected somewhere). */
+    disableRejection?: boolean;
     onSelectedChange?: (selected: boolean) => Promise<void>;
     onRejectedChange?: (rejected: boolean) => Promise<void>;
     onNotesSave?: (notes: string) => Promise<void>;
@@ -27,6 +31,8 @@ export function SubmissionReviewCard({
     submission,
     editable = false,
     pdfUrl,
+    disableSelection = false,
+    disableRejection = false,
     onSelectedChange,
     onRejectedChange,
     onNotesSave,
@@ -119,7 +125,7 @@ export function SubmissionReviewCard({
                         <Checkbox
                             checked={submission.selected_for_interview}
                             onCheckedChange={(v) => handleSelected(v === true)}
-                            disabled={busy || submission.rejected}
+                            disabled={busy || submission.rejected || disableSelection}
                         />
                         <span
                             className={cn(
@@ -137,7 +143,7 @@ export function SubmissionReviewCard({
                         <Checkbox
                             checked={submission.rejected}
                             onCheckedChange={(v) => handleRejected(v === true)}
-                            disabled={busy || submission.selected_for_interview}
+                            disabled={busy || submission.selected_for_interview || disableRejection}
                         />
                         <span
                             className={cn(
