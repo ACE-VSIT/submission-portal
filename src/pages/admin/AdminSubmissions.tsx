@@ -378,7 +378,7 @@ export function AdminSubmissions() {
                                                             {new Set(subs.map((s) => s.domain_id)).size}
                                                         </span>
                                                     </td>
-                                                    <td className="px-5 py-4 text-right whitespace-nowrap">
+                                                    <td className="px-5 py-4 text-center whitespace-nowrap">
                                                         {status.type === "accepted" ? (
                                                             <span className="group relative inline-flex cursor-help">
                                                                 <Check

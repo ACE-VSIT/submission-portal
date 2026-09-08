@@ -131,7 +131,7 @@ async function fetchOverview(): Promise<OverviewData> {
         submissionCountToday,
         submissionCountWeek,
         resubmissionRate: submissionCount > 0 ? Math.round((resubmissionCount / submissionCount) * 100) : 0,
-        avgPerStudent: studentCount > 0 ? Math.round((submissionCount / studentCount) * 10) / 10 : 0,
+        avgPerStudent: activeStudentCount > 0 ? Math.round((submissionCount / activeStudentCount) * 10) / 10 : 0,
         calledForInterview,
         interviewsDone,
         interviewsRemaining: Math.max(0, calledForInterview - interviewsDone),
