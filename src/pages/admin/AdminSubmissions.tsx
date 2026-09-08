@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { ClipboardCheck, Eye, Minus, Search, Users, X, Check } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useAdminReviewData, type ReviewSubmissionView } from "@/hooks/useAdminReviewData";
-import { buildPdfViewUrl, updateSubmissionReview } from "@/lib/admin";
+import { buildPdfViewUrl, setStudentRejected, updateSubmissionReview } from "@/lib/admin";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { StatCell } from "@/components/shared/StatCell";
 import { EmptyState } from "@/components/states/EmptyState";
@@ -12,6 +12,7 @@ import { ErrorState } from "@/components/states/ErrorState";
 import { TableSkeleton } from "@/components/states/LoadingState";
 import { SubmissionReviewCard } from "@/components/admin/SubmissionReviewCard";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -97,7 +98,7 @@ export function AdminSubmissions() {
         return map;
     }, [submissions]);
 
-    const statusForStudent = React.useCallback((list: ReviewSubmissionView[]) => {
+    const statusForStudent = React.useCallback((list: ReviewSubmissionView[], rejected: boolean) => {
         const selected = list.filter((s) => s.selected_for_interview);
         if (selected.length > 0) {
             return {
@@ -105,7 +106,7 @@ export function AdminSubmissions() {
                 domains: [...new Set(selected.map((s) => s.domain_name))],
             };
         }
-        if (list.some((s) => s.rejected)) return { type: "rejected" as const, domains: [] };
+        if (rejected) return { type: "rejected" as const, domains: [] };
         return { type: "pending" as const, domains: [] };
     }, []);
 
@@ -170,7 +171,7 @@ export function AdminSubmissions() {
 
     const handleSelectedChange = async (submission: ReviewSubmissionView, selected: boolean) => {
         try {
-            await updateSubmissionReview(submission.id, { selected_for_interview: selected, rejected: false });
+            await updateSubmissionReview(submission.id, { selected_for_interview: selected });
             toast.success(selected ? "Selected for interview" : "Selection removed");
             refetch();
         } catch (err) {
@@ -178,13 +179,10 @@ export function AdminSubmissions() {
         }
     };
 
-    const handleRejectedChange = async (submission: ReviewSubmissionView, rejected: boolean) => {
+    const handleStudentRejectedChange = async (studentId: string, rejected: boolean) => {
         try {
-            await updateSubmissionReview(submission.id, {
-                rejected,
-                selected_for_interview: false,
-            });
-            toast.success(rejected ? "Submission rejected" : "Rejection removed");
+            await setStudentRejected(studentId, rejected);
+            toast.success(rejected ? "Student rejected" : "Rejection removed");
             refetch();
         } catch (err) {
             toast.error(err instanceof Error ? err.message : "Could not update rejection.");
@@ -338,7 +336,7 @@ export function AdminSubmissions() {
                                         {filteredStudents.map((p) => {
                                             const subs = matchingSubmissions(byStudent.get(p.id) ?? []);
                                             const allSubs = byStudent.get(p.id) ?? [];
-                                            const status = statusForStudent(allSubs);
+                                            const status = statusForStudent(allSubs, Boolean(p.rejected));
                                             return (
                                                 <tr
                                                     key={p.id}
@@ -443,28 +441,70 @@ export function AdminSubmissions() {
                             {(() => {
                                 const dialogSubs = matchingSubmissions(byStudent.get(dialog.student_id) ?? []);
                                 const allStudentSubs = byStudent.get(dialog.student_id) ?? [];
-                                const gateSelection = allStudentSubs.some((s) => s.rejected);
-                                const gateRejection = allStudentSubs.some((s) => s.selected_for_interview);
+                                const student = students.find((s) => s.id === dialog.student_id);
+                                const isRejected = Boolean(student?.rejected);
+                                const anySelected = allStudentSubs.some((s) => s.selected_for_interview);
+                                const rejectDisabled = anySelected;
+                                const rejectControl = (
+                                    <div className="border-border flex items-center justify-between gap-3 border-b pb-3">
+                                        <div>
+                                            <p className="text-foreground text-sm font-medium">
+                                                Student review decision
+                                            </p>
+                                            <p className="text-muted-foreground text-xs">
+                                                Rejecting disables interview selection for every submission.
+                                            </p>
+                                        </div>
+                                        <label
+                                            className={cn(
+                                                "flex cursor-pointer items-center gap-2",
+                                                rejectDisabled && "cursor-not-allowed opacity-50"
+                                            )}
+                                        >
+                                            <Checkbox
+                                                checked={isRejected}
+                                                onCheckedChange={(v) =>
+                                                    handleStudentRejectedChange(dialog.student_id, v === true)
+                                                }
+                                                disabled={rejectDisabled}
+                                            />
+                                            <span
+                                                className={cn(
+                                                    "text-sm font-medium",
+                                                    isRejected ? "text-error" : "text-foreground"
+                                                )}
+                                            >
+                                                {isRejected ? "Rejected" : "Reject student"}
+                                            </span>
+                                        </label>
+                                    </div>
+                                );
                                 if (dialogSubs.length === 0) {
                                     return (
-                                        <p className="text-muted-foreground py-8 text-center text-sm">
-                                            No submissions match the current filters.
-                                        </p>
+                                        <>
+                                            {rejectControl}
+                                            <p className="text-muted-foreground py-6 text-center text-sm">
+                                                No submissions match the current filters.
+                                            </p>
+                                        </>
                                     );
                                 }
-                                return dialogSubs.map((sub) => (
-                                    <SubmissionReviewCard
-                                        key={sub.id}
-                                        submission={sub}
-                                        editable
-                                        pdfUrl={pdfView(sub)}
-                                        disableSelection={gateSelection}
-                                        disableRejection={gateRejection}
-                                        onSelectedChange={(sel) => handleSelectedChange(sub, sel)}
-                                        onRejectedChange={(rej) => handleRejectedChange(sub, rej)}
-                                        onNotesSave={(notes) => handleNotesSave(sub, notes)}
-                                    />
-                                ));
+                                return (
+                                    <>
+                                        {rejectControl}
+                                        {dialogSubs.map((sub) => (
+                                            <SubmissionReviewCard
+                                                key={sub.id}
+                                                submission={sub}
+                                                editable
+                                                pdfUrl={pdfView(sub)}
+                                                disableSelection={isRejected}
+                                                onSelectedChange={(sel) => handleSelectedChange(sub, sel)}
+                                                onNotesSave={(notes) => handleNotesSave(sub, notes)}
+                                            />
+                                        ))}
+                                    </>
+                                );
                             })()}
                         </div>
                     )}

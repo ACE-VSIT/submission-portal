@@ -10,6 +10,8 @@ export interface Profile {
     enrollment_no: string;
     course: "BCA" | "MCA";
     role: Role;
+    /** Admin review: reject the student (person-level, NOT per submission). */
+    rejected?: boolean;
     created_at: string;
     updated_at: string;
 }
@@ -50,8 +52,6 @@ export interface Submission {
     status: "submitted" | "failed";
     /** Admin review: shortlist this task submission for an interview (ported from admintable-old). */
     selected_for_interview?: boolean;
-    /** Admin review: reject this task submission while reviewing it. */
-    rejected?: boolean;
     /** Admin review: private per-submission note (ported from admintable-old). */
     admin_notes?: string | null;
     submitted_at: string;

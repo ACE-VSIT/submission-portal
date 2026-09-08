@@ -13,12 +13,9 @@ interface SubmissionReviewCardProps {
     /** Reviews page: allow toggling "selected for interview" + editing notes. */
     editable?: boolean;
     pdfUrl?: string | null;
-    /** Disable the "select for interview" toggle (student already rejected somewhere). */
+    /** Disable the "select for interview" toggle (student already rejected). */
     disableSelection?: boolean;
-    /** Disable the "reject" toggle (student already selected somewhere). */
-    disableRejection?: boolean;
     onSelectedChange?: (selected: boolean) => Promise<void>;
-    onRejectedChange?: (rejected: boolean) => Promise<void>;
     onNotesSave?: (notes: string) => Promise<void>;
 }
 
@@ -32,9 +29,7 @@ export function SubmissionReviewCard({
     editable = false,
     pdfUrl,
     disableSelection = false,
-    disableRejection = false,
     onSelectedChange,
-    onRejectedChange,
     onNotesSave,
 }: SubmissionReviewCardProps) {
     const [notes, setNotes] = React.useState(submission.admin_notes ?? "");
@@ -48,16 +43,6 @@ export function SubmissionReviewCard({
         setBusy(true);
         try {
             await onSelectedChange(checked);
-        } finally {
-            setBusy(false);
-        }
-    };
-
-    const handleRejected = async (checked: boolean) => {
-        if (!onRejectedChange) return;
-        setBusy(true);
-        try {
-            await onRejectedChange(checked);
         } finally {
             setBusy(false);
         }
@@ -88,7 +73,6 @@ export function SubmissionReviewCard({
                         <DifficultyBadge difficulty={submission.difficulty} />
                         <span>{formatDateTime(submission.submitted_at)}</span>
                         {submission.status === "failed" && <Badge variant="error">Failed</Badge>}
-                        {submission.rejected && <Badge variant="error">Rejected</Badge>}
                     </p>
                 </div>
             </div>
@@ -125,7 +109,7 @@ export function SubmissionReviewCard({
                         <Checkbox
                             checked={submission.selected_for_interview}
                             onCheckedChange={(v) => handleSelected(v === true)}
-                            disabled={busy || submission.rejected || disableSelection}
+                            disabled={busy || disableSelection}
                         />
                         <span
                             className={cn(
@@ -136,22 +120,6 @@ export function SubmissionReviewCard({
                             {submission.selected_for_interview
                                 ? "Selected for interview"
                                 : "Not selected for interview"}
-                        </span>
-                    </label>
-
-                    <label className="flex cursor-pointer items-center gap-2">
-                        <Checkbox
-                            checked={submission.rejected}
-                            onCheckedChange={(v) => handleRejected(v === true)}
-                            disabled={busy || submission.selected_for_interview || disableRejection}
-                        />
-                        <span
-                            className={cn(
-                                "text-sm font-medium",
-                                submission.rejected ? "text-error" : "text-foreground"
-                            )}
-                        >
-                            {submission.rejected ? "Rejected" : "Reject this submission"}
                         </span>
                     </label>
 
