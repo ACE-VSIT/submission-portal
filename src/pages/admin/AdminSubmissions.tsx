@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { ClipboardCheck, Eye, Minus, Search, Users, X, Check } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/context/AuthContext";
 import { useAdminReviewData, type ReviewSubmissionView } from "@/hooks/useAdminReviewData";
 import { buildPdfViewUrl, setStudentRejected, updateSubmissionReview } from "@/lib/admin";
 import { PageHeader } from "@/components/shared/PageHeader";
@@ -53,6 +54,8 @@ function TopCountsList({ title, items }: { title: string; items: [string, number
 
 export function AdminSubmissions() {
     const { data, loading, error, refetch } = useAdminReviewData();
+    const { role } = useAuth();
+    const canReject = role === "admin" || role === "owner";
 
     // Filters
     const [search, setSearch] = React.useState("");
@@ -444,8 +447,8 @@ export function AdminSubmissions() {
                                 const student = students.find((s) => s.id === dialog.student_id);
                                 const isRejected = Boolean(student?.rejected);
                                 const anySelected = allStudentSubs.some((s) => s.selected_for_interview);
-                                const rejectDisabled = anySelected;
-                                const rejectControl = (
+                                const rejectDisabled = canReject && anySelected;
+                                const rejectControl = canReject ? (
                                     <div className="border-border flex items-center justify-between gap-3 border-b pb-3">
                                         <div>
                                             <p className="text-foreground text-sm font-medium">
@@ -478,7 +481,14 @@ export function AdminSubmissions() {
                                             </span>
                                         </label>
                                     </div>
-                                );
+                                ) : isRejected ? (
+                                    <div className="border-border flex items-center justify-between gap-3 border-b pb-3">
+                                        <p className="text-foreground text-sm font-medium">Student review decision</p>
+                                        <span className="text-error font-mono text-xs font-medium tracking-[0.05em] uppercase">
+                                            Rejected
+                                        </span>
+                                    </div>
+                                ) : null;
                                 if (dialogSubs.length === 0) {
                                     return (
                                         <>
