@@ -332,27 +332,20 @@ export function AdminInterviews() {
                                 <table className="w-full">
                                     <thead className="bg-secondary">
                                         <tr>
-                                            {[
-                                                "Student",
-                                                "Email",
-                                                "Phone",
-                                                "Course",
-                                                "Domain",
-                                                "Interview",
-                                                "Selection",
-                                                "",
-                                            ].map((h, i) => (
-                                                <th
-                                                    key={h}
-                                                    scope="col"
-                                                    className={cn(
-                                                        "text-muted-foreground px-5 py-3 text-left font-mono text-[0.6875rem] font-medium tracking-[0.05em] uppercase",
-                                                        i === 0 && "pl-6"
-                                                    )}
-                                                >
-                                                    {h}
-                                                </th>
-                                            ))}
+                                            {["Student", "Email", "Phone", "Domain", "Interview", "Selection", ""].map(
+                                                (h, i) => (
+                                                    <th
+                                                        key={h}
+                                                        scope="col"
+                                                        className={cn(
+                                                            "text-muted-foreground px-5 py-3 text-left font-mono text-[0.6875rem] font-medium tracking-[0.05em] uppercase",
+                                                            i === 0 && "pl-6"
+                                                        )}
+                                                    >
+                                                        {h}
+                                                    </th>
+                                                )
+                                            )}
                                         </tr>
                                     </thead>
                                     <tbody className="divide-border divide-y">
@@ -364,6 +357,15 @@ export function AdminInterviews() {
                                                 <td className="px-5 py-4 pl-6 whitespace-nowrap">
                                                     <p className="text-foreground text-sm font-medium">
                                                         {row.full_name || "-"}
+                                                    </p>
+                                                    <p className="text-muted-foreground font-mono text-[0.625rem] tracking-[0.05em] uppercase">
+                                                        {row.course
+                                                            ? `${row.course} - ${ordinal(
+                                                                  /^\d{11}$/.test(row.enrollment_no?.trim() ?? "")
+                                                                      ? studyYearFromEnrollment(row.enrollment_no)
+                                                                      : 1
+                                                              )} Year`
+                                                            : "-"}
                                                     </p>
                                                 </td>
                                                 <td className="px-5 py-4 whitespace-nowrap">
@@ -377,15 +379,7 @@ export function AdminInterviews() {
                                                     </span>
                                                 </td>
                                                 <td className="px-5 py-4 whitespace-nowrap">
-                                                    <Badge variant="neutral">
-                                                        {row.course
-                                                            ? `${row.course} - ${ordinal(
-                                                                  /^\d{11}$/.test(row.enrollment_no?.trim() ?? "")
-                                                                      ? studyYearFromEnrollment(row.enrollment_no)
-                                                                      : 1
-                                                              )} Year`
-                                                            : "-"}
-                                                    </Badge>
+                                                    <Badge variant="primary">{row.domain_name}</Badge>
                                                 </td>
                                                 <td className="px-5 py-4 whitespace-nowrap">
                                                     <label className="flex cursor-pointer items-center gap-2">
