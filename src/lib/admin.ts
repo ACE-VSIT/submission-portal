@@ -22,6 +22,11 @@ export async function setStudentRejected(studentId: string, rejected: boolean): 
     if (error) throw error;
 }
 
+export async function setMentorReviewEnabled(enabled: boolean): Promise<void> {
+    const { error } = await supabase.from("portal_settings").update({ mentor_review_enabled: enabled }).eq("id", true);
+    if (error) throw error;
+}
+
 export async function upsertInterviewRecord(record: {
     student_id: string;
     domain_id: string;

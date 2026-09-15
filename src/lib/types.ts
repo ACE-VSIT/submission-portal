@@ -70,6 +70,15 @@ export interface InterviewRecord {
     updated_at: string;
 }
 
+export interface PortalSettings {
+    /** Single-row table guard - always true. */
+    id: boolean;
+    /** When false, mentors cannot shortlist submissions or edit review notes. */
+    mentor_review_enabled: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
 export interface Announcement {
     id: string;
     title: string;

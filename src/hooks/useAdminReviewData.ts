@@ -1,6 +1,6 @@
 import { useFetch } from "./useFetch";
 import { supabase } from "@/lib/supabase";
-import type { Difficulty, Domain, InterviewRecord, Profile, Submission, Task } from "@/lib/types";
+import type { Difficulty, Domain, InterviewRecord, PortalSettings, Profile, Submission, Task } from "@/lib/types";
 
 /**
  * Admin review + interview data (ported from admintable-old).
@@ -33,10 +33,11 @@ export interface AdminReviewData {
     tasks: Task[];
     submissions: ReviewSubmissionView[];
     records: InterviewRecord[];
+    settings: PortalSettings | null;
 }
 
 export async function fetchAdminReviewData(): Promise<AdminReviewData> {
-    const [profilesRes, domainsRes, tasksRes, subsRes, recordsRes] = await Promise.all([
+    const [profilesRes, domainsRes, tasksRes, subsRes, recordsRes, settingsRes] = await Promise.all([
         supabase
             .from("profiles")
             .select("id, full_name, email, phone, enrollment_no, course, rejected")
@@ -46,9 +47,10 @@ export async function fetchAdminReviewData(): Promise<AdminReviewData> {
         supabase.from("tasks").select("id, domain_id, name, difficulty").order("display_order"),
         supabase.from("submissions").select("*").order("submitted_at", { ascending: false }),
         supabase.from("interview_records").select("*"),
+        supabase.from("portal_settings").select("*").eq("id", true).maybeSingle(),
     ]);
 
-    for (const r of [profilesRes, domainsRes, tasksRes, subsRes, recordsRes]) {
+    for (const r of [profilesRes, domainsRes, tasksRes, subsRes, recordsRes, settingsRes]) {
         if (r.error) throw r.error;
     }
 
@@ -70,6 +72,7 @@ export async function fetchAdminReviewData(): Promise<AdminReviewData> {
         tasks: (tasksRes.data as Task[]) ?? [],
         submissions,
         records: (recordsRes.data as InterviewRecord[]) ?? [],
+        settings: (settingsRes.data as PortalSettings | null) ?? null,
     };
 }
 

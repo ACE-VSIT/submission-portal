@@ -5,7 +5,7 @@ import { ClipboardCheck, Eye, Minus, Search, Users, X, Check } from "lucide-reac
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/context/AuthContext";
 import { useAdminReviewData, type ReviewSubmissionView } from "@/hooks/useAdminReviewData";
-import { buildPdfViewUrl, setStudentRejected, updateSubmissionReview } from "@/lib/admin";
+import { buildPdfViewUrl, setMentorReviewEnabled, setStudentRejected, updateSubmissionReview } from "@/lib/admin";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { StatCell } from "@/components/shared/StatCell";
 import { EmptyState } from "@/components/states/EmptyState";
@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { cn, ordinal, studyYearFromEnrollment } from "@/lib/utils";
 
@@ -56,6 +57,26 @@ export function AdminSubmissions() {
     const { data, loading, error, refetch } = useAdminReviewData();
     const { role } = useAuth();
     const canReject = role === "admin" || role === "owner";
+
+    // Mentor review toggle (admin-only) - controls whether mentors can
+    // shortlist submissions / edit notes on this page.
+    const canToggleReview = role === "admin" || role === "owner";
+    const reviewEnabled = data?.settings?.mentor_review_enabled ?? true;
+    const reviewEditable = canToggleReview || reviewEnabled;
+    const [savingToggle, setSavingToggle] = React.useState(false);
+
+    const handleToggleReview = async (enabled: boolean) => {
+        setSavingToggle(true);
+        try {
+            await setMentorReviewEnabled(enabled);
+            toast.success(enabled ? "Mentors can now select and add notes" : "Mentor selection and notes disabled");
+            refetch();
+        } catch (err) {
+            toast.error(err instanceof Error ? err.message : "Could not update review setting.");
+        } finally {
+            setSavingToggle(false);
+        }
+    };
 
     // Filters
     const [search, setSearch] = React.useState("");
@@ -211,12 +232,30 @@ export function AdminSubmissions() {
                 title="Submissions"
                 description="All students with submissions - shortlist tasks for interview and leave private notes."
                 actions={
-                    <Link to="/admin/interviews">
-                        <Button variant="secondary">
-                            <ClipboardCheck className="size-4" aria-hidden="true" />
-                            Interview panel
-                        </Button>
-                    </Link>
+                    <>
+                        {canToggleReview && (
+                            <label className="border-border bg-card flex cursor-pointer items-center gap-2.5 rounded-sm border px-3 py-2">
+                                <Switch
+                                    checked={reviewEnabled}
+                                    onCheckedChange={handleToggleReview}
+                                    disabled={savingToggle}
+                                    aria-label="Toggle whether mentors can select submissions and add notes"
+                                />
+                                <span className="text-foreground text-xs leading-tight font-medium">
+                                    Mentor review
+                                    <span className="text-muted-foreground block font-mono text-[0.5625rem] font-medium tracking-[0.05em] uppercase">
+                                        Select + notes
+                                    </span>
+                                </span>
+                            </label>
+                        )}
+                        <Link to="/admin/interviews">
+                            <Button variant="secondary">
+                                <ClipboardCheck className="size-4" aria-hidden="true" />
+                                Interview panel
+                            </Button>
+                        </Link>
+                    </>
                 }
             />
 
@@ -502,11 +541,22 @@ export function AdminSubmissions() {
                                 return (
                                     <>
                                         {rejectControl}
+                                        {!reviewEditable && (
+                                            <div
+                                                className="border-border bg-secondary/40 rounded-sm border px-4 py-3"
+                                                role="note"
+                                            >
+                                                <p className="text-muted-foreground text-xs">
+                                                    Mentor selection and notes are currently turned off by an admin -
+                                                    you can still view the submissions below.
+                                                </p>
+                                            </div>
+                                        )}
                                         {dialogSubs.map((sub) => (
                                             <SubmissionReviewCard
                                                 key={sub.id}
                                                 submission={sub}
-                                                editable
+                                                editable={reviewEditable}
                                                 pdfUrl={pdfView(sub)}
                                                 disableSelection={isRejected}
                                                 onSelectedChange={(sel) => handleSelectedChange(sub, sel)}
